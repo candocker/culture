@@ -1,0 +1,41 @@
+{
+    "name": "candocker/culture",
+    "type": "project",
+    "keywords": [
+        "php",
+        "application",
+        "culture",
+        "user",
+        "permission",
+        "role",
+        "resource"
+    ],
+    "description": "A application of culture",
+    "license": "MIT",
+    "require": {
+        "php": "^7.3.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "ModuleCulture\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ModuleCulture\\Test\\": "./test/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": [],
+    "scripts": {
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
+}
