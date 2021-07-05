@@ -4,6 +4,7 @@ namespace ModuleCulture\Models;
 
 class Book extends AbstractModel
 {
+    protected $table = 'book';
 	public $cover;
 	public $tag;
 

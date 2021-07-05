@@ -2,12 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace ModulePassport\Models;
+namespace ModuleCulture\Models;
 
 use Framework\Baseapp\Models\AbstractModel as AbstractModelBase;
 
 class AbstractModel extends AbstractModelBase
 {
+    protected $connection = 'culture';
 
 	public function getBookPath($book)
 	{

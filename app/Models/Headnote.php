@@ -4,6 +4,7 @@ namespace ModuleCulture\Models;
 
 class Headnote extends AbstractModel
 {
+    protected $table = 'headnote';
     public function rules()
     {
         return [

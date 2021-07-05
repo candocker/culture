@@ -4,6 +4,8 @@ namespace ModuleCulture\Models;
 
 class Figure extends AbstractModel
 {
+    protected $table = 'figure';
+
     public function rules()
     {
         return [

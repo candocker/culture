@@ -6,6 +6,7 @@ namespace ModuleCulture\Models;
 
 class Tag extends AbstractModel
 {
+    protected $table = 'tag';
 	//use TagTrait;
 
 	public function getStatusInfos()

@@ -4,6 +4,8 @@ namespace ModuleCulture\Models;
 
 class Chapter extends AbstractModel
 {
+    protected $table = 'chapter';
+
     public function rules()
     {
         return [

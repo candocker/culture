@@ -6,6 +6,7 @@ namespace ModuleCulture\Models;
 
 class TagInfo extends AbstractModel
 {
+    protected $table = 'tag_info';
 	//use TagInfoTrait;
 
 	public function getInfoTypeInfos()
