@@ -44,4 +44,13 @@ class TagInfoRepository extends AbstractRepository
         return [
         ];
     }
+
+	public function _info_typeKeyDatas()
+	{
+		return [
+			'book' => '书籍',
+			'chapter' => '段落内容',
+			'author' => '作者',
+		];
+	}
 }

@@ -6,7 +6,7 @@ class Figure extends AbstractModel
 {
     protected $table = 'figure';
 
-    public function rules()
+    /*public function rules()
     {
         return [
 			[['code', 'name'], 'required'],
@@ -28,5 +28,5 @@ class Figure extends AbstractModel
 				'updated_at', 'description'
 			],
         ];
-    }
+    }*/
 }

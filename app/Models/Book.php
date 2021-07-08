@@ -5,7 +5,25 @@ namespace ModuleCulture\Models;
 class Book extends AbstractModel
 {
     protected $table = 'book';
-	public $cover;
+    protected $primaryKey = 'code';
+    protected $keyType = 'string';
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class, 'book_code', 'code')->orderBy('serial', 'asc');
+    }
+
+    public function tagInfos()
+    {
+        return $this->hasMany(TagInfo::class, 'info_id', 'id')->where('info_type', 'book');
+    }
+
+    public function authorInfo()
+    {
+        return $this->hasOne(Figure::class, 'code', 'author');
+    }
+
+	/*public $cover;
 	public $tag;
 
     public function rules()
@@ -36,14 +54,6 @@ class Book extends AbstractModel
 		return ['cover'];
 	}
 
-	public function getPositionInfos()
-	{
-		return [
-			'reading' => '在读书籍',
-			'favor' => '排行榜',
-		];
-	}
-
     protected function _getTemplatePointFields()
     {
         return [
@@ -62,12 +72,12 @@ class Book extends AbstractModel
 	public function getCoverUrl()
 	{
 		return $this->_getThumb('cover');
-	}
+    }
 
 	public function getAuthorName()
 	{
 		return $this->getPointName('figure', ['code' => $this->author]);
-	}
+    }
 
 	public function getTagDatas()
 	{
@@ -90,20 +100,6 @@ class Book extends AbstractModel
         return $this->_formatMenuOperation($view, $menuCodes, ['book_code' => 'code']);
     }
 
-	public function getDatasByTagCode($tagCode, $number, $toArray = true)
-	{
-		$ids = $this->getIdsByTagCode('culture', $tagCode, 'book');
-		$infos = $this->getInfos(['where' => ['id' => $ids], 'orderBy' => ['orderlist' => SORT_DESC], 'limit' => $number]);
-		if (empty($toArray)) {
-		    return $infos;
-		}
-		$datas = [];
-		foreach ($infos as $info) {
-			$datas[$info['id']] = $info->formatToArray();
-		}
-		return $datas;
-	}
-
 	public function formatToArray($withChapters = false)
 	{
 		$data = $this->_restBaseData('list');
@@ -113,5 +109,5 @@ class Book extends AbstractModel
 			$data['chapterNum'] = count($chapters);
 		}
 		return $data;
-	}
+    }*/
 }

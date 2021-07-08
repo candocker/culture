@@ -5,7 +5,8 @@ namespace ModuleCulture\Models;
 class Headnote extends AbstractModel
 {
     protected $table = 'headnote';
-    public function rules()
+
+    /*public function rules()
     {
         return [
 			[['name'], 'required'],
@@ -23,5 +24,5 @@ class Headnote extends AbstractModel
 				'updated_at', 'description'
 			],
         ];
-    }
+    }*/
 }

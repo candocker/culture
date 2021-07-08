@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ModulePassport\Requests;
+namespace ModuleCulture\Requests;
 
 use Framework\Baseapp\Requests\AbstractRequest as AbstractRequestBase;
 

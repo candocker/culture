@@ -8,7 +8,7 @@ trait DealBookTrait
 {
 	public function dealBook()
 	{
-		$model = $this->getPointModel('book');
+		$model = $this->getModelObj('book');
 		$infos = $model->getInfos();
 		foreach ($infos as $info) {
 			$data = ['tag_code' => $info['author'], 'info_id' => $info['id'], 'info_type' => 'book'];
@@ -158,7 +158,7 @@ trait DealBookTrait
 
 	protected function dealLuxun()
 	{
-		$infos = $this->model->getInfos(['limit' => 2000]);
+		$infos = $this->getModelObj('chapter')->getInfos(['limit' => 2000]);
 		foreach ($infos as $info) {
 			$serial = $info['write_at'] - $this->baseList($info['book_code']) + 1;
 			echo $serial . '==' . $info['name'] . '--' . $info['write_at'] . '--' . $this->baseList($info['book_code']) . '<br />';

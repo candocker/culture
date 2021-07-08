@@ -12,14 +12,14 @@ class AbstractModel extends AbstractModelBase
 
 	public function getBookPath($book)
 	{
-		$base = Yii::$app->params['bookPath'];
+		$base = $this->config->get('culture.book_path');
 		$path = "{$base}{$book['author']}/{$book['code']}/";
 		return $path;
 	}
 
 	public function getChapterFile($chapter, $returnContent = true)
 	{
-		$path = $this->getBookPath($chapter->bookData);
+		$path = $this->getBookPath($chapter->book);
 		$file = "{$path}{$chapter['code']}.txt";
 		if (!$returnContent) {
 			return $file;
@@ -30,4 +30,17 @@ class AbstractModel extends AbstractModelBase
 		$content = file_get_contents($file);
 		return $content;
 	}
+
+    public function formatTagDatas($tagInfos)
+    {
+        $datas = [];
+        foreach ($tagInfos as $tagInfo) {
+            $tag = $tagInfo->tag;
+            if (empty($tag)) {
+                continue;
+            }
+            $datas[$tag['code']] = $tag['name'];
+        }
+        return $datas;
+    }
 }
