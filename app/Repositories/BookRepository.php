@@ -5,19 +5,13 @@ namespace ModuleCulture\Repositories;
 
 class BookRepository extends AbstractRepository
 {
-    protected function _statusKeyDatas()
-    {
-        return [
-        ];
-    }
-
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'name'],
-            'listSearch' => ['id', 'name'],
-            'add' => ['name'],
-            'update' => ['name'],
+            'list' => ['id', 'code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
+            'listSearch' => ['id', 'code', 'title', 'author', 'name'],
+            'add' => ['code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'update' => ['code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
 
@@ -92,4 +86,18 @@ class BookRepository extends AbstractRepository
         $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $this]);
         return $infos;
 	}
+
+	public function _statusKeyDatas()
+	{
+		return [
+			'0' => '录入',
+			'1' => '完成',
+            '99' => '下架',
+		];
+	}
+
+    public function getDefaultSort()
+    {
+        return ['id' => 'desc'];
+    }
 }

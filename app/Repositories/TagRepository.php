@@ -5,12 +5,6 @@ namespace ModuleCulture\Repositories;
 
 class TagRepository extends AbstractRepository
 {
-    protected function _statusKeyDatas()
-    {
-        return [
-        ];
-    }
-
     protected function _sceneFields()
     {
         return [

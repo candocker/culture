@@ -7,6 +7,7 @@ namespace ModuleCulture\Models;
 class Tag extends AbstractModel
 {
     protected $table = 'tag';
+    public $timestamps = false;
 	//use TagTrait;
 	/*public $add_mul;
 

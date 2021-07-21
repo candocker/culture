@@ -18,12 +18,15 @@ class ChapterController extends AbstractController
 
     public function epub()
     {
-        $book = [];
+        $repository = $this->getRepositoryObj();
+        $info = $this->getPointChapter($repository);
+        $book = $info->book;
+
         $epubService = $this->getServiceObj('epub');
         $epubService->initBook();
         $epubService->renderBook($book);
         $epubService->renderMeta($book);
-        $epubService->renderChapters($book);
+        $epubService->renderChapters($book->chapters);
         return $epubService->outputBook();
     }
 
@@ -32,9 +35,9 @@ class ChapterController extends AbstractController
         $request = $this->getPointRequest('', $repository);
         $params = $request->all();
 
-        $serial = $this->getInputParams('serial');
+        $serial = $params['serial'];
 		$serial = empty($serial) ? 1 : $serial;
-        $info = $repository->findWhere(['book_code' => $params['code'], 'serial' => $serial]);
+        $info = $repository->findWhereOne(['book_code' => $params['code'], 'serial' => $serial]);
         if (empty($info)) {
             $this->resource->throwException('参数有误');
         }
