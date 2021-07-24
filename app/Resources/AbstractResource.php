@@ -1,6 +1,6 @@
 <?php
 
-namespace ModulePassport\Resources;
+namespace ModuleCulture\Resources;
 
 use Framework\Baseapp\Resources\AbstractResource as AbstractResourceBase;
 
