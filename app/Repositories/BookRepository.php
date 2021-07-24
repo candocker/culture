@@ -47,7 +47,7 @@ class BookRepository extends AbstractRepository
 		];
 	}
 
-	public function getNavBooks($number = 10)
+	public function getNavBooks($number = 4)
 	{
         $model = $this->getModelObj('tag');
         $navTags = $model->where(['status' => 'nav'])->orderBy('orderlist', 'desc')->get();

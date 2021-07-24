@@ -26,6 +26,7 @@ class Book extends AbstractResource
 
     protected function _frontInfoArray()
     {
+        $url = $this->_repository->getAttachmentUrl(['info_table' => 'book', 'info_field' => 'cover', 'info_id' => $this->code]);
         return [              
             'id' => $this->id,
             'code' => $this->code,
@@ -33,7 +34,7 @@ class Book extends AbstractResource
             'note' => $this->note,
             'description' => $this->discription,
             'author' => $this->authorInfo,
-            'coverUrl' => '',
+            'coverUrl' => $url ? $url . '?x-oss-process=image/resize,m_pad,h_350,w_250' : '',
             'tag' => $this->formatTagDatas($this->tagInfos),
         ];
     }

@@ -5,12 +5,6 @@ namespace ModuleCulture\Repositories;
 
 class BookRecordRepository extends AbstractRepository
 {
-    protected function _statusKeyDatas()
-    {
-        return [
-        ];
-    }
-
     protected function _sceneFields()
     {
         return [
@@ -40,6 +34,12 @@ class BookRecordRepository extends AbstractRepository
     }
 
     public function _getFieldOptions()
+    {
+        return [
+        ];
+    }
+
+    protected function _statusKeyDatas()
     {
         return [
         ];
