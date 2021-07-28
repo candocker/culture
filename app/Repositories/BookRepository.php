@@ -8,10 +8,19 @@ class BookRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
+            'list' => ['id', 'code', 'category_first', 'category_second', 'category_third', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
             'listSearch' => ['id', 'code', 'title', 'author', 'name'],
-            'add' => ['code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
-            'update' => ['code', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'add' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'update' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+        ];
+    }
+
+    public function getShowFields()
+    {
+        return [
+            'category_first' => ['valueType' => 'select', 'showType' => 'select'],
+            'category_second' => ['valueType' => 'select', 'showType' => 'select'],
+            'category_third' => ['valueType' => 'select', 'showType' => 'select'],
         ];
     }
 
@@ -99,5 +108,20 @@ class BookRepository extends AbstractRepository
     public function getDefaultSort()
     {
         return ['id' => 'desc'];
+    }
+
+    public function _categoryFirstKeyDatas()
+    {
+        return $this->getPointCaches('category', 'tree');
+    }
+
+    public function _categorySecondKeyDatas()
+    {
+        return $this->getPointCaches('category', 'tree');
+    }
+
+    public function _categoryThirdKeyDatas()
+    {
+        return $this->getPointCaches('category', 'tree');
     }
 }

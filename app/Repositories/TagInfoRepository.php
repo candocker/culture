@@ -45,7 +45,7 @@ class TagInfoRepository extends AbstractRepository
         ];
     }
 
-	public function _info_typeKeyDatas()
+	public function _infoTypeKeyDatas()
 	{
 		return [
 			'book' => '书籍',

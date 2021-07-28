@@ -18,4 +18,9 @@ class AbstractRepository extends AbstractRepositoryBase
     {
         return 'culture';
     }
+
+    public function _categoryKeyDatas()
+    {
+        return $this->getPointCaches('category');
+    }
 }
