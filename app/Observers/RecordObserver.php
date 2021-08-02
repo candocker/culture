@@ -4,16 +4,16 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Observers;
 
-use Framework\Baseapp\Models\Interfaces\BaseModelEventsInterface;
+use ModuleCulture\Models\Record;
 
 class RecordObserver
 {
-    public function created(BaseModelEventsInterface $model)
+    public function created(Record $model)
     {
         $model->onCreated();
     }
 
-    public function updated(BaseModelEventsInterface $model)
+    public function updated(Record $model)
     {
         $model->onUpdated();
     }

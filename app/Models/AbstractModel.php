@@ -43,4 +43,9 @@ class AbstractModel extends AbstractModelBase
         }
         return $datas;
     }
+
+    protected function getAppcode()
+    {
+        return 'culture';
+    }
 }

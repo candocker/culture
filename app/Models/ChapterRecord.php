@@ -5,11 +5,13 @@ namespace ModuleCulture\Models;
 class ChapterRecord extends AbstractModel
 {
     protected $table = 'chapter_record';
+    public $timestamps = false;
+    protected $guarded = ['id'];
 
     public function record($record)
     {
-        $where = ['uid' => $record['user_id'],  'chapter_id' => $record['chapter_id'], 'book_code' => $record['book_code']);
-        $exist = $this->where()->first();
+        $where = ['user_id' => $record['user_id'],  'chapter_id' => $record['chapter_id'], 'book_code' => $record['book_code']];
+        $exist = $this->where($where)->first();
         if (empty($exist)) {
             $data = $where;
             $data['read_first'] = date('Y-m-d H:i:s');
@@ -21,7 +23,7 @@ class ChapterRecord extends AbstractModel
         }
 
         $exist->read_last = date('Y-m-d H:i:s');
-        $exist->status = $record['status'];
+        $exist->read_status = $record['status'];
         $exist->read_num += intval($record['status']);
         $exist->save();
         return true;

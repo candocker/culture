@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Observers;
 
-use Framework\Baseapp\Models\Interfaces\BaseModelEventsInterface;
+use ModuleCulture\Models\Category;
 
 class CategoryObserver
 {
-    public function saved(BaseModelEventsInterface $model)
+    public function saved(Category $model)
     {
         $repository = $model->getRepositoryObj();
         $repository->cacheDatas();

@@ -7,23 +7,22 @@ namespace ModuleCulture\Models;
 class Record extends AbstractModel
 {
     protected $table = 'record';
+    public $timestamps = false;
     protected $guarded = ['id'];
-
-    public function onCreated()
-    {
-        return $this->_record('start');
-    }
 
     public function onCreated()
     {
         return $this->_record('finish');
     }
 
+    public function onUpdated()
+    {
+        return $this->_record('finish');
+    }
+
     protected function _record($operation)
     {
-        $type = $this->type;
-        $modelCode = $this->type == 'chapter' ? 'chapterRecord' : 'bookRecord';
-        $model = $this->getModelObj($modelCode);
-        return $model->record($this, $operation);
+        $this->getModelObj('chapterRecord')->record($this, $operation);
+        return $this->getModelObj('bookRecord')->record($this, $operation);
     }
 }
