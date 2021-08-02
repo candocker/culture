@@ -12,4 +12,8 @@ class Category extends AbstractModel
     public $timestamps = false;
     //protected $guarded = ['id'];
 
+    public function getBookNumAttribute()
+    {
+        return Book::query()->orWhere('category_first', $this->code)->orWhere('category_second', $this->code)->orWhere('category_third', $this->code)->count();
+    }
 }

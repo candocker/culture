@@ -40,6 +40,7 @@ class EpubService extends AbstractService
     {
         $this->log = new Logger('Example', true);
         $this->book = new EPub(); // Default is EPub::BOOK_VERSION_EPUB2
+        $this->book->setBookRoot('');
     
         $this->log->logLine("new EPub()");
         $this->log->logLine("EPub class version.: " . EPub::VERSION);
@@ -51,18 +52,18 @@ class EpubService extends AbstractService
     public function renderBook($data)
     {
        // Title and Identifier are mandatory!
-       $this->book->setTitle("Test book");
+       $this->book->setTitle($data['name']);
        $this->book->setIdentifier("http://JohnJaneDoePublications.com/books/TestBook.html", EPub::IDENTIFIER_URI); // Could also be the ISBN number, preferred for published books, or a UUID.
-       $this->book->setDescription("This is a brief description\nA test ePub book as an example of building a book in PHP");
-       $this->book->setAuthor("John Doe Johnson", "Johnson, John Doe");
-       
-       $this->book->setSubject("Test book");
+       $this->book->setDescription($data['description']);
+       $authorName = $data->authorInfo ? $data->authorInfo->name : '未名';
+       $this->book->setAuthor($authorName, $data['name'] . '-author');
+       $this->book->setSubject($data['name']);
     }
 
     public function renderMeta($data)
     {
        $this->log->logLine("Add Cover Image");
-       $this->book->setCoverImage("Cover.jpg", file_get_contents("/data/htmlwww/laravel-system/vendor/grandt/phpepub/tests/demo/cover-image.jpg"), "image/jpeg");
+       $this->book->setCoverImage($data->coverUrl);
     }
 
     public function renderChapters($chapters)
@@ -71,6 +72,7 @@ class EpubService extends AbstractService
             $content = '<p>' . str_replace("\n", '</p><p>', $chapter->getContent()) . '</p>';
             $content = $this->contentStart . "<h1>{$chapter['name']}</h1>\n" . $content . $this->bookEnd;
             //echo $content;exit();
+            echo "{$chapter['serial']}: {$chapter['name']}\n";
             $this->book->addChapter("{$chapter['serial']}: {$chapter['name']}", "{$chapter['serial']}.html", $content, true, EPub::EXTERNAL_REF_ADD);
         }
     }
@@ -78,10 +80,12 @@ class EpubService extends AbstractService
     public function outputBook($book)
     {
        $this->book->finalize(); // Finalize the book, and build the archive.
+       //$path = $this->config->get('culture.epub_path');
        $path = $this->config->get('culture.epub_path') . $book['author'];
        if (!is_dir($path)) {
            mkdir($path);
        }
+       //$this->book->saveBook($path . '/test', '');
        $this->book->saveBook($path . '/' . $book['code'], '');
        return true;
     }

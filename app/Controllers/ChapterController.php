@@ -18,16 +18,14 @@ class ChapterController extends AbstractController
 
     public function epub()
     {
-        $repository = $this->getRepositoryObj();
-        $info = $this->getPointChapter($repository);
-        $book = $info->book;
-
+        $book = $this->getModelObj('book')->find('quanqiutongshi-1500nianyihoudeshijie');
         $epubService = $this->getServiceObj('epub');
         $epubService->initBook();
         $epubService->renderBook($book);
-        $epubService->renderMeta($book);
         $epubService->renderChapters($book->chapters);
-        return $epubService->outputBook();
+        $epubService->renderMeta($book);
+        $result = $epubService->outputBook($book);
+        exit();
     }
 
     public function getPointChapter($repository)

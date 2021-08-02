@@ -16,6 +16,26 @@ class BookController extends AbstractController
         return $this->success(['positionBooks' => $positionBooks, 'navBooks' => $navBooks]);
 	}
 
+	public function frontList()
+	{
+        $repository = $this->getRepositoryObj();
+        $model = $this->getModelObj();
+        $request = $this->getPointRequest();
+        $where = [];
+        $query = $model->query();
+        $category = $request->input('category');
+        $keyword = $request->input('keyword');
+        if (!empty($category)) {
+            $query = $query->orWhere('category_first', $category)->orWhere('category_second', $category)->orWhere('category_third', $category);
+        }
+        if (!empty($keyword)) {
+            $query = $query->where('name', 'like', "%{$keyword}%");
+        }
+        $infos = $query->get();
+        $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+        return $this->success(['books' => $infos, 'total' => count($infos)]);
+	}
+
     public function epub()
     {
         $model = $this->getModelObj();
@@ -24,8 +44,8 @@ class BookController extends AbstractController
             $epubService = $this->getServiceObj('epub');
             $epubService->initBook();
             $epubService->renderBook($book);
-            $epubService->renderMeta($book);
             $epubService->renderChapters($book->chapters);
+            $epubService->renderMeta($book);
             $result = $epubService->outputBook($book);
             $book->extfield1 = 'epub';
             $book->save();

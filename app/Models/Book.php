@@ -23,6 +23,13 @@ class Book extends AbstractModel
         return $this->hasOne(Figure::class, 'code', 'author');
     }
 
+    public function getCoverUrlAttribute()
+    {
+        $url = $this->getRepositoryObj()->getAttachmentUrl(['info_table' => 'book', 'info_field' => 'cover', 'info_id' => $this->code]);
+        $url = $url ? $url : 'http://ossfile.canliang.wang/book/0921a8be-f9e6-4a31-87e3-b31f023b96a0.jpg';
+        return $url;
+    }
+
 	/*public $cover;
 	public $tag;
 

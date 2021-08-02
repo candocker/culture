@@ -24,15 +24,15 @@ class Book extends AbstractResource
 
     protected function _frontInfoArray()
     {
-        $url = $this->_repository->getAttachmentUrl(['info_table' => 'book', 'info_field' => 'cover', 'info_id' => $this->code]);
+        $suffix = '?x-oss-process=image/resize,m_pad,h_350,w_250';
         return [              
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
             'note' => $this->note,
-            'description' => $this->discription,
+            'description' => $this->description,
             'author' => $this->authorInfo,
-            'coverUrl' => $url ? $url . '?x-oss-process=image/resize,m_pad,h_350,w_250' : '',
+            'coverUrl' => $this->coverUrl . $suffix,
             'tag' => $this->formatTagDatas($this->tagInfos),
         ];
     }

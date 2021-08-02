@@ -21,17 +21,16 @@ class CategoryRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['code', 'name', 'orderlist', 'description', 'status'],
+            'list' => ['code', 'name', 'book_num', 'thumb', 'orderlist', 'description', 'status'],
             'listSearch' => ['code', 'name'],
-            'add' => ['name'],
-            'update' => ['name'],
+            'add' => ['code', 'name', 'thumb', 'orderlist', 'description', 'status'],
+            'update' => ['code', 'name', 'thumb', 'orderlist', 'description', 'status'],
         ];
     }
 
     public function getShowFields()
     {
         return [
-            //'type' => ['valueType' => 'key'],
         ];
     }
 
@@ -46,6 +45,13 @@ class CategoryRepository extends AbstractRepository
     {
         return [
             //'type' => ['type' => 'select', 'infos' => $this->getKeyValues('type')],
+        ];
+    }
+
+    protected function _getFieldOptions()
+    {
+        return [
+            'book_num' => ['name' => '图书数量'],
         ];
     }
 
