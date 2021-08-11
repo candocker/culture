@@ -6,4 +6,8 @@ namespace ModuleCulture\Resources;
 
 class RecordCollection extends AbstractCollection
 {
+    protected function _frontListArray()
+    {
+        return $this->collection->toArray();
+    }
 }

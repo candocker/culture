@@ -6,13 +6,20 @@ namespace ModuleCulture\Requests;
 
 class ChapterRecordRequest extends AbstractRequest
 {
+    protected function _myRecordRule()
+    {
+        return [
+            'book_code' => ['bail', 'required', 'exists:culture.book,code'],
+        ];
+    }
+
     protected function _recordRule()
     {
         $serial = $this->input('serial');
         return [
             'type' => ['bail', 'required', 'in:start,finish'],
             'serial' => ['bail', 'required', 'integer'],
-            'book_code' => ['bail', 'required', 'string'],
+            'book_code' => ['bail', 'required', 'exists:culture.book,code'],
         ];
     }
 

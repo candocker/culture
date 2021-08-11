@@ -6,6 +6,15 @@ namespace ModuleCulture\Controllers;
 
 class ChapterRecordController extends AbstractController
 {
+    public function myRecord()
+    {
+        $repository = $this->getRepositoryObj();
+        $request = $this->getPointRequest('myRecord', $repository);
+        $book = $this->getModelObj('book')->find($request->input('book_code'));
+        $data = $repository->getMyRecords($book);
+        return $this->success($data);
+    }
+
     public function record()
     {
         $repository = $this->getRepositoryObj();

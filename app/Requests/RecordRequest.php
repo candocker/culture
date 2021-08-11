@@ -6,6 +6,13 @@ namespace ModuleCulture\Requests;
 
 class RecordRequest extends AbstractRequest
 {
+    protected function _myRecordRule()
+    {
+        return [
+            'book_code' => ['bail', 'required', 'exists:culture.book,code'],
+        ];
+    }
+
     protected function _updateRule()
     {
         return [

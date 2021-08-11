@@ -5,6 +5,13 @@ namespace ModuleCulture\Repositories;
 
 class BookRecordRepository extends AbstractRepository
 {
+    public function getMyRecord($userData)
+    {
+        $model = $this->model;
+        $infos = $model->where(['user_id' => $userData['id']])->get();
+        return $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontList', 'repository' => $this]);
+    }
+
     protected function _sceneFields()
     {
         return [

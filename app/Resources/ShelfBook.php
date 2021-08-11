@@ -22,7 +22,7 @@ class ShelfBook extends AbstractResource
     protected function _shelfListArray()
     {
         return [              
-            'id' => $this->id,
+            'id' => $this->book->id,
             'shelf_id' => $this->shelf_id,
             'bookCode' => $this->book->code,
             'selected' => 0,

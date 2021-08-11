@@ -14,6 +14,14 @@ class AbstractRepository extends AbstractRepositoryBase
         ]);
     }
 
+    public function _readStatusKeyDatas()
+    {
+        return [
+            0 => '阅读中',
+            1 => '已阅',
+        ];
+    }
+
     protected function getAppcode()
     {
         return 'culture';

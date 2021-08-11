@@ -6,6 +6,14 @@ namespace ModuleCulture\Requests;
 
 class ShelfBookRequest extends AbstractRequest
 {
+    protected function _recordRule()
+    {
+        return [
+            'book_code' => ['bail', 'required', 'exists:culture.book,code'],
+            'type' => ['bail', 'required', 'in:add,remove'],
+        ];
+    }
+
     protected function _updateRule()
     {
         return [

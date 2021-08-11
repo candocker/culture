@@ -21,7 +21,7 @@ class ShelfController extends AbstractController
         $repository = $this->getRepositoryObj();
         $request = $this->getPointRequest('create', $repository);
         $userData = $this->resource->getCurrentUser();
-        $repository->createData($request->all(), $userData);
+        $repository->createData($request->input('name'), $userData['id']);
         return $this->success();
     }
 }

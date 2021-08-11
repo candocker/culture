@@ -6,6 +6,17 @@ namespace ModuleCulture\Repositories;
 
 class ShelfRepository extends AbstractRepository
 {
+    public function getDefaultShelf($userId)
+    {
+        $where = ['user_id' => $userId, 'name' => 'defaultshelf'];
+        $model = $this->getModelObj('shelf');
+        $shelf = $model->where($where)->first();
+        if (!empty($shelf)) {
+            return $shelf;
+        }
+        return $model->create($where);
+    }
+
     public function getMylist($userData)
     {
         $model = $this->model;
@@ -17,6 +28,7 @@ class ShelfRepository extends AbstractRepository
         foreach ($infos as $name => $info) {
             if ($name == 'defaultshelf') {
                 $baseBooks = $this->getCollectionObj('shelfBook', ['resource' => $info->books, 'scene' => 'shelfList', 'repository' => $shelfBookRepository]);
+                $baseBooks = $baseBooks->toArray();
                 continue;
             }
             $datas[] = [
@@ -31,22 +43,25 @@ class ShelfRepository extends AbstractRepository
             $bData['type'] = 1;
             $datas[] = $bData;
         }*/
-        return array_merge($datas, $baseBooks->toArray());
+        return array_merge($datas, $baseBooks);
         $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'shelfList', 'repository' => $this]);
     }
 
-    public function createData($data, $userData)
+    public function createData($name, $userId, $throw = true)
     {
-        $exist = $this->model->where(['name' => $data['name'], 'user_id' => $userData['id']])->first();
+        $exist = $this->model->where(['name' => $name, 'user_id' => $userId])->first();
         if (!empty($exist)) {
+            if (empty($throw)) {
+                return $exist;
+            }
             throw $this->resource->throwException(400, '您指定的书架已存在，请重新命名');
         }
         $newData = [
-            'name' => $data['name'],
-            'user_id' => $userData['id'],
+            'name' => $name,
+            'user_id' => $userId,
         ];
-        $this->model->create($newData);
-        return true;
+        $new = $this->model->create($newData);
+        return $new;
     }
 
     protected function _sceneFields()
