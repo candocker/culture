@@ -15,7 +15,7 @@ class RecordService extends AbstractService
     {
         $recordModel = $this->getModelObj('record');
         $userData = $this->userData();
-        $where = ['user_id' => $userData['id'], 'chapter_id' => $info['id'], 'book_code' => $info['book_code'], 'status' => 0];
+        $where = ['user_id' => $userData['id'], 'chapter_id' => $info['id'], 'book_code' => $info['book_code'], 'read_status' => 0];
         $exist = $recordModel->where($where)->first();
         if ($type == 'start') {
             if (!empty($exist)) {
@@ -32,7 +32,7 @@ class RecordService extends AbstractService
         if (empty($exist)) {
             return $this->resource->throwException(400, '您还没开始阅读本章节');
         }
-        $exist->status = 1;
+        $exist->read_status = 1;
         $exist->finish_at = date('Y-m-d H:i:s');
         $exist->save();
         return true;

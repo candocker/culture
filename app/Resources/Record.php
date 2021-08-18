@@ -14,7 +14,9 @@ class Record extends AbstractResource
             'bookCode' => $this->book->code,
             'bookName' => $this->book->name,
             'chapterName' => $this->chapter->name,
-            'author' => $this->book->authorInfo ? $this->book->authorInfo->name : '匿名',
+            'serial' => $this->chapter->serial,
+            'author' => $this->book->author,
+            'authorName' => $this->book->authorInfo ? $this->book->authorInfo->name : '匿名',
             'cover' => $this->book->coverUrl,
         ]);
     }

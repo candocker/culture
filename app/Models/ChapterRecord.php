@@ -16,15 +16,15 @@ class ChapterRecord extends AbstractModel
             $data = $where;
             $data['read_first'] = date('Y-m-d H:i:s');
             $data['read_last'] = date('Y-m-d H:i:s');
-            $data['read_num'] = intval($record['status']);
-            $data['read_status'] = $record['status'];
+            $data['read_num'] = intval($record['read_status']);
+            $data['read_status'] = $record['read_status'];
             $this->create($data);
             return true;
         }
 
         $exist->read_last = date('Y-m-d H:i:s');
-        $exist->read_status = $record['status'];
-        $exist->read_num += intval($record['status']);
+        $exist->read_status = $record['read_status'];
+        $exist->read_num += intval($record['read_status']);
         $exist->save();
         return true;
     }

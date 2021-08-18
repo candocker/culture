@@ -34,7 +34,7 @@ class BookRecord extends AbstractModel
         $recordModel = $this->getModelObj('record');
         $isFinish = true;
         foreach ($book->chapters as $chapter) {
-            $where = ['chapter_id' => $chapter->id, 'user_id' => $record['user_id'], 'status' => 1, 'book_num' => $exist->read_num];
+            $where = ['chapter_id' => $chapter->id, 'user_id' => $record['user_id'], 'read_status' => 1, 'book_num' => $exist->read_num];
             $chapterExist = $recordModel->where($where)->first();
             if (empty($chapterExist)) {
                 $isFinish = false;
