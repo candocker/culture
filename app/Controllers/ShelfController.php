@@ -13,7 +13,7 @@ class ShelfController extends AbstractController
         $userData = $this->resource->getCurrentUser();
 
         $data = $repository->getMylist($userData);
-        return $this->success($data);
+        return $this->success(['datas' => $data]);
     }
 
     public function create()
