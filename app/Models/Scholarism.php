@@ -8,6 +8,6 @@ class Scholarism extends AbstractModel
 {
     protected $table = 'scholarism';
     public $timestamps = false;
-    //protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
 }

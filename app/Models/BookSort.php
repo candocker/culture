@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Models;
 
-class Category extends AbstractModel
+class BookSort extends AbstractModel
 {
-    protected $table = 'category';
+    protected $table = 'book_sort';
     public $incrementing = false;
     protected $primaryKey = 'code';
     public $timestamps = false;
-    //protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
     public function getBookNumAttribute()
     {

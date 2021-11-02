@@ -8,6 +8,7 @@ class CultureCategory extends AbstractModel
 {
     protected $table = 'culture_category';
     protected $fillable = ['name'];
+    protected $guarded = ['id'];
 
     public function parentElem()
     {

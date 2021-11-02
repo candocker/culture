@@ -7,6 +7,7 @@ class Book extends AbstractModel
     protected $table = 'book';
     protected $primaryKey = 'code';
     protected $keyType = 'string';
+    protected $guarded = ['id'];
 
     public function chapters()
     {

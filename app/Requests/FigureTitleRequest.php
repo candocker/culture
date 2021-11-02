@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Requests;
 
-class CategoryRequest extends AbstractRequest
+class FigureTitleRequest extends AbstractRequest
 {
     protected function _updateRule()
     {

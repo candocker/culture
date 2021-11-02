@@ -5,6 +5,7 @@ namespace ModuleCulture\Models;
 class Chapter extends AbstractModel
 {
     protected $table = 'chapter';
+    protected $guarded = ['id'];
 
     public function tagInfos()
     {

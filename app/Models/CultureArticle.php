@@ -7,7 +7,8 @@ namespace ModuleCulture\Models;
 class CultureArticle extends AbstractModel
 {
     protected $table = 'culture_article';
-    protected $fillable = ['name', 'content'];
+    //protected $fillable = ['name', 'content'];
+    protected $guarded = ['id'];
 
     public function cultureCategory()
     {

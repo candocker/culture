@@ -5,6 +5,7 @@ namespace ModuleCulture\Models;
 class Figure extends AbstractModel
 {
     protected $table = 'figure';
+    protected $guarded = ['id'];
 
     /*public function rules()
     {

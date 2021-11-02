@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Repositories;
 
-class CategoryRepository extends AbstractRepository
+class BookSortRepository extends AbstractRepository
 {
     public function cacheDatas()
     {
@@ -13,8 +13,8 @@ class CategoryRepository extends AbstractRepository
         $keyValues = $datas->map(function ($value, $key) {
             return $value['name'];
         });
-        $this->setPointCaches('category', $datas->toArray());
-        $this->setPointCaches('category', $keyValues->toArray(), 'tree');
+        $this->setPointCaches('bookSort', $datas->toArray());
+        $this->setPointCaches('bookSort', $keyValues->toArray(), 'tree');
         return $datas;
     }
 

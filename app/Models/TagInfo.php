@@ -5,6 +5,7 @@ namespace ModuleCulture\Models;
 class TagInfo extends AbstractModel
 {
     protected $table = 'tag_info';
+    protected $guarded = ['id'];
 
     public function tag()
     {

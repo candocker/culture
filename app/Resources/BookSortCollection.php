@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Resources;
 
-class CategoryCollection extends AbstractCollection
+class BookSortCollection extends AbstractCollection
 {
     protected function _frontInfoArray()
     {

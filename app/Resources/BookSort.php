@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Resources;
 
-class Category extends AbstractResource
+class BookSort extends AbstractResource
 {
     protected function _frontInfoArray()
     {
-        $url = $this->_repository->getAttachmentUrl(['info_table' => 'category', 'info_field' => 'thumb', 'info_id' => $this->code]);
+        $url = $this->_repository->getAttachmentUrl(['info_table' => 'book_sort', 'info_field' => 'thumb', 'info_id' => $this->code]);
         $suffix = '?x-oss-process=image/resize,m_pad,h_350,w_250';
         return [              
             'code' => $this->code,

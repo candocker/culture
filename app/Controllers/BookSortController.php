@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Controllers;
 
-class CategoryController extends AbstractController
+class BookSortController extends AbstractController
 {
 	public function home()
 	{
