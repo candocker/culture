@@ -77,4 +77,21 @@ class AbstractRepository extends AbstractRepositoryBase
 
         return "<a href='{$url}' target='_blank'><img src='{$url}' width='150px' height='150px' /></a>";
     }
+
+    protected function _eraTypeKeyDatas()
+    {
+        return [
+            '' => '公元',
+            'bc' => '公元前',
+        ];
+    }
+
+    protected function _accurateKeyDatas()
+    {
+        return [
+            '' => '精准',
+            'unknown' => '未知',
+            'probably' => '大概',
+        ];
+    }
 }

@@ -18,6 +18,7 @@ class FigureRepository extends AbstractRepository
     public function getFormFields()
     {
         return [
+            'birthday' => ['type' => 'dateinfo', 'accurateInfos' => $this->getKeyValues('accurate'), 'eraInfos' => $this->getKeyValues('eraType'), 'customValue' => 3],
         ];
     }
 

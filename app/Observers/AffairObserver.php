@@ -4,14 +4,13 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Observers;
 
-use ModuleCulture\Models\Figure;
+use ModuleCulture\Models\Affair;
 
-class FigureObserver
+class AffairObserver
 {
-    public function saving(Figure $model)
+    public function saving(Affair $model)
     {
         $model->afterSave();
-        exit();
         return true;
     }
 }

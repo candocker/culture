@@ -4,14 +4,13 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Observers;
 
-use ModuleCulture\Models\Figure;
+use ModuleCulture\Models\Emperor;
 
-class FigureObserver
+class EmperorObserver
 {
-    public function saving(Figure $model)
+    public function saving(Emperor $model)
     {
         $model->afterSave();
-        exit();
         return true;
     }
 }

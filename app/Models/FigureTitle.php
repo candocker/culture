@@ -4,23 +4,25 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class FigureTitle extends AbstractModel
 {
+    use SoftDeletes;
     protected $table = 'figure_title';
     protected $guarded = ['id'];
 
-    public function recordTitle($string, $figureCode = 'test')
+    public function recordTitle($string, $figureCode)
     {
+        $this->where('figure_code', $figureCode)->delete();
         $string = str_replace(['，', '：', '；'], [',', ':', ';'], $string);
         $titles = strpos($string, ';') !== false ? explode(';', $string) : [$string];
-        print_r($titles);exit();
         foreach ($titles as $title) {
             if (strpos($title, ':') === false) {
-                echo $title;
                 continue;
             }
-            list($type, $names) = explode($title, ':');
-            $names = strpos($names, ',') !== false ? explode($names, ',') : [$names];
+            list($type, $names) = explode(':', $title);
+            $names = strpos($names, ',') !== false ? explode(',', $names) : [$names];
             foreach ($names as $name) {
                 $this->createRecord($figureCode, $type, $name);
             }
@@ -30,9 +32,12 @@ class FigureTitle extends AbstractModel
 
     protected function createRecord($figureCode, $type, $name)
     {
-        var_dump($figureCode);
-        var_dump($type);
-        var_dump($name);
-        exit();
+        $data = ['type' => $type, 'title' => $name, 'figure_code' => $figureCode];
+        $exist = $this->withTrashed()->where($data)->first();
+        if ($exist) {
+            return true;//$exist->trashed() ? $exist->restore() : true;
+        }
+
+        return $this->create($data);
     }
 }

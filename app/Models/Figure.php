@@ -11,10 +11,16 @@ class Figure extends AbstractModel
     {
         $request = request();
         $othername = $request->input('othername');
-        if (is_null($othername)) {
-            return ;
+        if (!is_null($othername)) {
+            $this->getModelObj('figureTitle')->recordTitle($othername, $this->code);
+        }
+        foreach (['birthday', 'deathday'] as $elem) {
+            $value = $request->input($elem);
+            if (!is_null($value)) {
+                $this->getModelObj('dateinfo')->recordDateinfo($elem, $value, 'figure', $this->code);
+            }
         }
 
-        return $this->getModelObj('figureTitle')->recordTitle($othername);
+        return true;
     }
 }
