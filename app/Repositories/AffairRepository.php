@@ -9,10 +9,10 @@ class AffairRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'name'],
-            'listSearch' => ['id', 'name'],
-            'add' => ['name'],
-            'update' => ['name'],
+            'list' => ['id', 'name', 'title', 'brief', 'created_at', 'updated_at', 'status'],
+            'listSearch' => ['id', 'name', 'title', 'created_at', 'updated_at', 'status'],
+            'add' => ['name', 'title', 'brief', 'status', 'content'],
+            'update' => ['name', 'title', 'brief', 'status', 'content'],
         ];
     }
 

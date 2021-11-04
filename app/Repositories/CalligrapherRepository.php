@@ -38,13 +38,4 @@ class CalligrapherRepository extends AbstractRepository
             //'type' => ['type' => 'select', 'infos' => $this->getKeyValues('type')],
         ];
     }
-
-    protected function _statusKeyDatas()
-    {
-        return [
-            0 => '未激活',
-            1 => '使用中',
-            99 => '锁定',
-        ];
-    }
 }

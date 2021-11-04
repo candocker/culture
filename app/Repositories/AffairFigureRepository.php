@@ -9,10 +9,8 @@ class AffairFigureRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'name'],
-            'listSearch' => ['id', 'name'],
-            'add' => ['name'],
-            'update' => ['name'],
+            'list' => ['id', 'name', 'title', 'figure_name'],
+            //'listSearch' => ['id', 'name', 'title', 'created_at', 'updated_at', 'status'],
         ];
     }
 

@@ -26,4 +26,13 @@ class FigureRequest extends AbstractRequest
             //'name.required' => '请填写名称',
         ];
     }
+
+    public function getInputDatas($type)
+    {
+        $data = parent::getInputDatas($type);
+        if (isset($data['othername'])) {
+            unset($data['othername']);
+        }
+        return $data;
+    }
 }

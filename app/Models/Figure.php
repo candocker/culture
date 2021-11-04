@@ -7,27 +7,14 @@ class Figure extends AbstractModel
     protected $table = 'figure';
     protected $guarded = ['id'];
 
-    /*public function rules()
+    public function afterSave()
     {
-        return [
-			[['code', 'name'], 'required'],
-            [['status'], 'default', 'value' => ''],
-            [['deathday', 'birthday'], 'default', 'value' => 0],
-			//[['birthday', 'deathday'], 'filter', 'filter' => function($value) {
-				//return strtotime($value);
-			//}],
-            [['title', 'nickname', 'birthday', 'deathday', 'description'], 'safe'],
-        ];
-    }
+        $request = request();
+        $othername = $request->input('othername');
+        if (is_null($othername)) {
+            return ;
+        }
 
-    protected function _getTemplatePointFields()
-    {
-        return [
-            'plat' => ['type' => 'key'],
-			'login_url' => ['type' => 'inline', 'method' => '_getLoginUrl', 'formatView' => 'raw'],
-			'listNo' => [
-				'updated_at', 'description'
-			],
-        ];
-    }*/
+        return $this->getModelObj('figureTitle')->recordTitle($othername);
+    }
 }

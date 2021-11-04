@@ -9,7 +9,7 @@ class EmperorRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'name'],
+            'list' => ['id', '', 'figure_code'],
             'listSearch' => ['id', 'name'],
             'add' => ['name'],
             'update' => ['name'],

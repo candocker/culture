@@ -5,19 +5,13 @@ namespace ModuleCulture\Repositories;
 
 class FigureRepository extends AbstractRepository
 {
-    protected function _statusKeyDatas()
-    {
-        return [
-        ];
-    }
-
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'name'],
+            'list' => ['id', 'code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'othername', 'description', 'created_at', 'status'],
             'listSearch' => ['id', 'name'],
-            'add' => ['name'],
-            'update' => ['name'],
+            'add' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'othername', 'description', 'status'],
+            'update' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'othername', 'description', 'status'],
         ];
     }
 
