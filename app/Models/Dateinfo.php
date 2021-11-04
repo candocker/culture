@@ -20,9 +20,9 @@ class Dateinfo extends AbstractModel
         $updateData = [
             'era_type' => trim($formatedValue[0]),
             'accurate' => trim($formatedValue[1]),
-            'year' => isset($date[0]) ? trim($date[0]) : 0,
-            'month' => isset($date[1]) ? trim($date[1]) : 0,
-            'day' => isset($date[2]) ? trim($date[2]) : 0,
+            'year' => isset($date[0]) ? intval(trim($date[0])) : 0,
+            'month' => isset($date[1]) ? intval(trim($date[1])) : 0,
+            'day' => isset($date[2]) ? intval(trim($date[2])) : 0,
         ];
         
         $data = ['type' => $type, 'info_type' => $infoType, 'info_key' => $infoKey];
@@ -34,5 +34,22 @@ class Dateinfo extends AbstractModel
             return $exist->save();
         }
         return $this->create(array_merge($data, $updateData));
+    }
+
+    public function formatDateinfo($type = 'source')
+    {
+        if ($type == 'source') {
+            return $this->era_type . '|' . $this->accurate . '|' . $this->year . '/' . $this->month . '/' . $this->day;
+        }
+        $repository = $this->getRepositoryObj('dateinfo');
+        $accurateInfos = $repository->getKeyValues('accurate');
+        $eraInfos = $repository->getKeyValues('eraType');
+        if (in_array($this->accurate, ['running', 'unknown'])) {
+            return $accurateInfos[$this->accurate];
+        }
+        $eraStr = $this->era_type != '' ? $eraInfos[$this->era_type] . ' ' : '';
+        $dateStr = $this->year . '/' . $this->month . '/' . $this->day;
+        $accurateStr = empty($this->accurate) ? '' : " ( {$accurateInfos[$this->accurate]} )";
+        return $eraStr . $dateStr . $accurateStr;
     }
 }

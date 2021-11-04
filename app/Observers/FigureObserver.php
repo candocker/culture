@@ -11,7 +11,6 @@ class FigureObserver
     public function saving(Figure $model)
     {
         $model->afterSave();
-        exit();
         return true;
     }
 }

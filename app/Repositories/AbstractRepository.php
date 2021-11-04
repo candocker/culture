@@ -92,6 +92,7 @@ class AbstractRepository extends AbstractRepositoryBase
             '' => '精准',
             'unknown' => '未知',
             'probably' => '大概',
+            'running' => '至今',
         ];
     }
 }

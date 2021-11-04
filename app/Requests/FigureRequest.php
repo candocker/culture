@@ -9,7 +9,7 @@ class FigureRequest extends AbstractRequest
     protected function _updateRule()
     {
         return [
-            'id' => ['bail', 'required', 'exists'],
+            //'id' => ['bail', 'required', 'exists'],
         ];
     }
 
@@ -27,11 +27,13 @@ class FigureRequest extends AbstractRequest
         ];
     }
 
-    public function getInputDatas($type)
+    public function filterDirtyData($data)
     {
-        $data = parent::getInputDatas($type);
-        if (isset($data['othername'])) {
-            unset($data['othername']);
+        foreach (['birthday', 'deathday', 'ftitle'] as $field) {
+            if (isset($data[$field])) {
+                unset($data[$field]);
+                $this->allowEmpty = true;
+            }
         }
         return $data;
     }

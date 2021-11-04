@@ -35,7 +35,7 @@ class FigureTitle extends AbstractModel
         $data = ['type' => $type, 'title' => $name, 'figure_code' => $figureCode];
         $exist = $this->withTrashed()->where($data)->first();
         if ($exist) {
-            return true;//$exist->trashed() ? $exist->restore() : true;
+            return $exist->trashed() ? $exist->restore() : true;
         }
 
         return $this->create($data);
