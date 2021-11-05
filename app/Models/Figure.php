@@ -28,12 +28,16 @@ class Figure extends AbstractModel
     {
         $titles = $this->getFtitleDatas();
         $str = '';
+        $repository = $this->getRepositoryObj('figure');
+        $ftitleDatas = $repository->getKeyValues('ftitle');
+        $result = [];
         foreach ($titles as $key => $value) {
-            $vStr = implode(',', $value);
-            $str .= "{$key}:{$vStr};";
+            $kName = $ftitleDatas[$key] ?? $key;
+            foreach ($value as $cTitle) {
+                $result["{$key}:{$cTitle}"] = "{$kName}:{$cTitle}";
+            }
         }
-        $str = trim($str, ';');
-        return ['source' => $str, 'show' => $str];
+        return ['source' => $result, 'show' => implode('||', $result)];
     }
 
     public function getFtitleDatas($type = null)

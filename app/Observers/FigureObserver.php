@@ -8,7 +8,7 @@ use ModuleCulture\Models\Figure;
 
 class FigureObserver
 {
-    public function saving(Figure $model)
+    public function saved(Figure $model)
     {
         $model->afterSave();
         return true;

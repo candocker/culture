@@ -95,4 +95,13 @@ class AbstractRepository extends AbstractRepositoryBase
             'running' => '至今',
         ];
     }
+
+    protected function _ftitleKeyDatas()
+    {
+        return [
+            'penname' => '笔名',
+            'temple' => '谥号',
+            'dynastic' => '庙号',
+        ];
+    }
 }

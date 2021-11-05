@@ -29,6 +29,7 @@ class FigureRepository extends AbstractRepository
         return [
             'birthday' => ['type' => 'dateinfo', 'accurateInfos' => $this->getKeyValues('accurate'), 'eraInfos' => $this->getKeyValues('eraType')],
             'deathday' => ['type' => 'dateinfo', 'accurateInfos' => $this->getKeyValues('accurate'), 'eraInfos' => $this->getKeyValues('eraType')],
+            'ftitle' => ['type' => 'complexSelect', 'infos' => $this->getKeyValues('ftitle')],
         ];
     }
 

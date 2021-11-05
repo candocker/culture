@@ -10,7 +10,7 @@ class BookRepository extends AbstractRepository
         return [
             'list' => ['id', 'code', 'category_first', 'category_second', 'category_third', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
             'listSearch' => ['id', 'code', 'title', 'author', 'name'],
-            'add' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'add' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'creative', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
             'update' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
@@ -27,6 +27,9 @@ class BookRepository extends AbstractRepository
     public function getFormFields()
     {
         return [
+            'creative' => ['type' => 'complexSelect', 'infos' => $this->getKeyValues('accurate')],
+            //'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user'],
+            //'birthday' => ['type' => 'dateinfo', 'eraInfos' => $this->getKeyValues('eraType')],
         ];
     }
 

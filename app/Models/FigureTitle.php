@@ -15,17 +15,14 @@ class FigureTitle extends AbstractModel
     public function recordTitle($string, $figureCode)
     {
         $this->where('figure_code', $figureCode)->delete();
-        $string = str_replace(['，', '：', '；'], [',', ':', ';'], $string);
-        $titles = strpos($string, ';') !== false ? explode(';', $string) : [$string];
+        $string = str_replace(['：'], [':'], $string);
+        $titles = strpos($string, '||') !== false ? explode('||', $string) : [$string];
         foreach ($titles as $title) {
             if (strpos($title, ':') === false) {
                 continue;
             }
-            list($type, $names) = explode(':', $title);
-            $names = strpos($names, ',') !== false ? explode(',', $names) : [$names];
-            foreach ($names as $name) {
-                $this->createRecord($figureCode, $type, $name);
-            }
+            list($type, $name) = explode(':', $title);
+            $this->createRecord($figureCode, $type, $name);
         }
         return true;
     }
