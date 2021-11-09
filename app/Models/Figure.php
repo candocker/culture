@@ -5,6 +5,8 @@ namespace ModuleCulture\Models;
 class Figure extends AbstractModel
 {
     protected $table = 'figure';
+    protected $primaryKey = 'code';
+    protected $keyType = 'string';
     protected $guarded = ['id'];
 
     public function afterSave()

@@ -26,4 +26,15 @@ class BookRequest extends AbstractRequest
             //'name.required' => '请填写名称',
         ];
     }
+
+    public function filterDirtyData($data)
+    {
+        foreach (['creative'] as $field) {
+            if (isset($data[$field])) {
+                unset($data[$field]);
+                $this->allowEmpty = true;
+            }
+        }
+        return $data;
+    }
 }

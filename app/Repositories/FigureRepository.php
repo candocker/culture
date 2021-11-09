@@ -9,7 +9,8 @@ class FigureRepository extends AbstractRepository
     {
         return [
             'list' => ['id', 'code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'created_at', 'status'],
-            'listSearch' => ['id', 'name'],
+            'listSearch' => ['id', 'name', 'keyword'],
+            'keyvalueExtSearch' => ['id', 'name', 'keyword'],
             'add' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'status'],
             'update' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'status'],
         ];

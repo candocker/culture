@@ -31,6 +31,34 @@ class Book extends AbstractModel
         return $url;
     }
 
+    public function afterSave()
+    {
+        $request = request();
+        $creative = $request->input('creative');
+        if (!is_null($creative)) {
+            $this->getModelObj('bookFigure')->recordTitle($creative, $this->code);
+        }
+
+        return true;
+    }
+
+    public function getCreative($type = 'all')
+    {
+        return ['source' => '', 'show' => ''];
+        $titles = $this->getFtitleDatas();
+        $str = '';
+        $repository = $this->getRepositoryObj('figure');
+        $ftitleDatas = $repository->getKeyValues('ftitle');
+        $result = [];
+        foreach ($titles as $key => $value) {
+            $kName = $ftitleDatas[$key] ?? $key;
+            foreach ($value as $cTitle) {
+                $result["{$key}:{$cTitle}"] = "{$kName}:{$cTitle}";
+            }
+        }
+        return ['source' => $result, 'show' => implode('||', $result)];
+    }
+
 	/*public $cover;
 	public $tag;
 
@@ -77,27 +105,9 @@ class Book extends AbstractModel
         ];
     }
 
-	public function getCoverUrl()
-	{
-		return $this->_getThumb('cover');
-    }
-
-	public function getAuthorName()
-	{
-		return $this->getPointName('figure', ['code' => $this->author]);
-    }
-
 	public function getTagDatas()
 	{
 		return $this->getInfoTags($this->id, 'culture', 'book');
-	}
-
-	public function _sceneFields()
-	{
-		return [
-			'base' => ['id', 'code', 'author', 'name', 'description', 'coverUrl', 'tagDatas', 'authorName'],
-			'ext' => ['coverUrl', 'tagDatas', 'authorName'],
-		];
 	}
 
     public function formatOperation($view)

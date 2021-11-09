@@ -8,10 +8,10 @@ class BookRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'category_first', 'category_second', 'category_third', 'cover', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
+            'list' => ['id', 'code', 'category_first', 'category_second', 'category_third', 'cover', 'name', 'title', 'creative', 'author', 'position', 'orderlist', 'note', 'description', 'created_at', 'updated_at', 'publish_at', 'status'],
             'listSearch' => ['id', 'code', 'title', 'author', 'name'],
             'add' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'creative', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
-            'update' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'update' => ['code', 'cover', 'category_first', 'category_second', 'category_third', 'name', 'title', 'creative', 'author', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
 
@@ -21,13 +21,17 @@ class BookRepository extends AbstractRepository
             'category_first' => ['valueType' => 'select', 'showType' => 'select'],
             'category_second' => ['valueType' => 'select', 'showType' => 'select'],
             'category_third' => ['valueType' => 'select', 'showType' => 'select'],
+            'creative' => ['valueType' => 'extinfo', 'extType' => 'creative'],
         ];
     }
 
     public function getFormFields()
     {
         return [
-            'creative' => ['type' => 'complexSelect', 'infos' => $this->getKeyValues('accurate')],
+            'creative' => ['type' => 'complexSelectSearch', 'typeInfos' => $this->getKeyValues('creative'), 'searchResource' => 'figure'],
+            'category_first' => ['type' => 'select', 'infos' => $this->getKeyValues('categoryFirst')],
+            'category_second' => ['type' => 'select', 'infos' => $this->getKeyValues('categorySecond')],
+            'category_third' => ['type' => 'select', 'infos' => $this->getKeyValues('categoryThird')],
             //'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user'],
             //'birthday' => ['type' => 'dateinfo', 'eraInfos' => $this->getKeyValues('eraType')],
         ];
@@ -105,6 +109,16 @@ class BookRepository extends AbstractRepository
 			'0' => '录入',
 			'1' => '完成',
             '99' => '下架',
+		];
+	}
+
+	public function _creativeKeyDatas()
+	{
+		return [
+			'author' => '作者',
+            'editor' => '编者',
+			'translator' => '译者',
+            'correct' => '校正',
 		];
 	}
 
