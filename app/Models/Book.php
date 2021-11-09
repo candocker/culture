@@ -36,7 +36,7 @@ class Book extends AbstractModel
         $request = request();
         $creative = $request->input('creative');
         if (!is_null($creative)) {
-            $this->getModelObj('bookFigure')->recordTitle($creative, $this->code);
+            $this->getModelObj('bookFigure')->recordCreative($creative, $this->code);
         }
 
         return true;
@@ -44,19 +44,32 @@ class Book extends AbstractModel
 
     public function getCreative($type = 'all')
     {
-        return ['source' => '', 'show' => ''];
-        $titles = $this->getFtitleDatas();
-        $str = '';
-        $repository = $this->getRepositoryObj('figure');
-        $ftitleDatas = $repository->getKeyValues('ftitle');
+        $infos = $this->getCreativeDatas();
+        $repository = $this->getRepositoryObj('book');
+        $creativeDatas = $repository->getKeyValues('creative');
         $result = [];
-        foreach ($titles as $key => $value) {
-            $kName = $ftitleDatas[$key] ?? $key;
-            foreach ($value as $cTitle) {
-                $result["{$key}:{$cTitle}"] = "{$kName}:{$cTitle}";
+        foreach ($infos as $key => $value) {
+            $kName = $creativeDatas[$key] ?? $key;
+            foreach ($value as $fCode => $fName) {
+                $result["{$key}:{$fCode}"] = "{$kName}:{$fName}";
             }
         }
         return ['source' => $result, 'show' => implode('||', $result)];
+    }
+
+    public function getCreativeDatas($type = null)
+    {
+        $where = ['book_code' => $this->code];
+        $infos = $this->getModelObj('bookFigure')->where($where)->orderBy('type')->get();
+        $results = [];
+        foreach ($infos as $info) {
+            $figure = $info->figure;
+            $results[$info['type']][$figure['code']] = $figure['name'];
+        }
+        if (!is_null($type)) {
+            return $results[$type] ?? [];
+        }
+        return $results;
     }
 
 	/*public $cover;

@@ -29,7 +29,6 @@ class Figure extends AbstractModel
     public function getFtitle($type = 'all')
     {
         $titles = $this->getFtitleDatas();
-        $str = '';
         $repository = $this->getRepositoryObj('figure');
         $ftitleDatas = $repository->getKeyValues('ftitle');
         $result = [];
