@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Models;
 
-class Emperor extends AbstractModel
+class Dynasty extends AbstractModel
 {
-    protected $table = 'emperor_source';
+    protected $table = 'dynasty';
     protected $guarded = ['id'];
 
 }

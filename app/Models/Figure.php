@@ -19,7 +19,7 @@ class Figure extends AbstractModel
         foreach (['birthday', 'deathday'] as $elem) {
             $value = $request->input($elem);
             if (!is_null($value)) {
-                $this->getModelObj('dateinfo')->recordDateinfo($elem, $value, 'figure', $this->id);
+                $this->getModelObj('dateinfo')->recordDateinfo($elem, $value, 'figure', $this->code);
             }
         }
 

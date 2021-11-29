@@ -6,10 +6,21 @@ namespace ModuleCulture\Requests;
 
 class FigureRequest extends AbstractRequest
 {
+    protected function _addRule()
+    {
+        $rules = [
+            'code' => ['bail', 'required', 'unique:type'],
+            'name' => ['bail', 'required'],
+            'status' => $this->_getKeyValues('status'),
+        ];
+        return $rules;
+    }
+
     protected function _updateRule()
     {
         return [
             //'id' => ['bail', 'required', 'exists'],
+            'code' => ['bail', 'filled', Rule::unique('brand')->ignore($this->routeParam('id', 0), 'code')],
         ];
     }
 
