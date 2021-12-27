@@ -16,6 +16,7 @@ class Dateinfo extends AbstractModel
             return true;
         }
         $date = trim($formatedValue[2]);
+        $date = str_replace(['年', '月', '日'], ['/', '/', ''], $date);
         $date = explode('/', $date);
         $updateData = [
             'era_type' => trim($formatedValue[0]),

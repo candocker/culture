@@ -8,11 +8,11 @@ class FigureRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'created_at', 'status'],
+            'list' => ['id', 'code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'created_at', 'status', 'point_operation'],
             'listSearch' => ['id', 'name', 'keyword'],
             'keyvalueExtSearch' => ['id', 'name', 'keyword'],
-            'add' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'status'],
-            'update' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'status'],
+            'add' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
+            'update' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
         ];
     }
 
@@ -50,5 +50,25 @@ class FigureRepository extends AbstractRepository
     {
         return [
         ];
+    }
+
+    protected function _pointOperations($model, $field)
+    {
+        $add = [
+            'name' => '添加履历',
+            'type' => 'popForm',
+            'resource' => 'figureResume',
+            'app' => $this->getAppcode(),
+            'params' => ['figure_code' => $model->code],
+        ];
+
+        $list = [
+            'name' => '履历列表',
+            'type' => 'popTable',
+            'resource' => 'figureResume',
+            'app' => $this->getAppcode(),
+            'params' => ['figure_code' => $model->code],
+        ];
+        return [$add, $list];
     }
 }

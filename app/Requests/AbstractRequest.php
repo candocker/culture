@@ -8,4 +8,8 @@ use Framework\Baseapp\Requests\AbstractRequest as AbstractRequestBase;
 
 class AbstractRequest extends AbstractRequestBase
 {
+    protected function getAppcode()
+    {
+        return 'culture';
+    }
 }

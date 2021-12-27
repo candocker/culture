@@ -4,23 +4,12 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Requests;
 
-class FigureRequest extends AbstractRequest
+class FigureResumeRequest extends AbstractRequest
 {
-    protected function _addRule()
-    {
-        $rules = [
-            'code' => ['bail', 'required', 'unique:culture.figure,code'],
-            'name' => ['bail', 'required'],
-            'status' => $this->_getKeyValues('status'),
-        ];
-        return $rules;
-    }
-
     protected function _updateRule()
     {
         return [
-            //'id' => ['bail', 'required', 'exists'],
-            'code' => ['bail', 'filled', $this->getRule()->unique('figure')->ignore($this->routeParam('code', 0), 'code')],
+            'id' => ['bail', 'required', 'exists'],
         ];
     }
 
@@ -40,8 +29,7 @@ class FigureRequest extends AbstractRequest
 
     public function filterDirtyData($data)
     {
-        \Log::info('figure-' . json_encode($data));
-        foreach (['birthday', 'deathday', 'ftitle'] as $field) {
+        foreach (['start', 'end'] as $field) {
             if (isset($data[$field])) {
                 unset($data[$field]);
                 $this->allowEmpty = true;

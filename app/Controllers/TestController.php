@@ -21,6 +21,15 @@ class TestController extends AbstractController
         exit();
     }
 
+    protected function _testDealFigure()
+    {
+        $model = $this->getModelObj('emperor');
+        $infos = $model->where('id', '>', 3)->where('id', '<', 50)->get();
+        foreach ($infos as $info) {
+            print_r($info->toArray());exit();
+        }
+    }
+
     protected function _testFigure()
     {
         $results = require('/tmp/text/dealed/hddonghan.php');

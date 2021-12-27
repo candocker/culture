@@ -2,6 +2,8 @@
 
 namespace ModuleCulture\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class Figure extends AbstractModel
 {
     protected $table = 'figure';
@@ -53,5 +55,19 @@ class Figure extends AbstractModel
             return $results[$type] ?? [];
         }
         return $results;
+    }
+
+    /**
+     * Insert the given attributes and set the ID on the model.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  array  $attributes
+     * @return void
+     */
+    protected function insertAndSetId(Builder $query, $attributes)
+    {
+        $id = $query->insertGetId($attributes, $keyName = $this->getKeyName());
+
+        $this->setAttribute('id', $id);
     }
 }

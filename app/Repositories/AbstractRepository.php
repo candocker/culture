@@ -86,6 +86,17 @@ class AbstractRepository extends AbstractRepositoryBase
         ];
     }
 
+    protected function _ageKeyDatas()
+    {
+        return [
+            '' => '未知',
+            'ancient' => '古代',
+            'recent' => '近代',
+            'modern' => '现代',
+            'contemporary' => '当代',
+        ];
+    }
+
     protected function _accurateKeyDatas()
     {
         return [
@@ -102,6 +113,9 @@ class AbstractRepository extends AbstractRepositoryBase
             'penname' => '笔名',
             'temple' => '谥号',
             'dynastic' => '庙号',
+            'englishname' => '英文名',
+            'englishfull' => '英文全名',
+            'usedbefore' => '曾用名',
         ];
     }
 }

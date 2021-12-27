@@ -16,6 +16,9 @@ class FigureTitle extends AbstractModel
     {
         $this->where('figure_code', $figureCode)->delete();
         $string = str_replace(['：'], [':'], $string);
+        if (empty($string)) {
+            return true;
+        }
         $titles = strpos($string, '||') !== false ? explode('||', $string) : [$string];
         foreach ($titles as $title) {
             if (strpos($title, ':') === false) {
