@@ -6,7 +6,7 @@ namespace ModuleCulture\Models;
 
 class Emperor extends AbstractModel
 {
-    protected $table = 'emperor_source';
+    protected $table = 'emperor';
     protected $guarded = ['id'];
 
 }

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Resources;
 
-class Diagram extends AbstractResource
+class Graphic extends AbstractResource
 {
     protected function _frontDetailArray()
     {

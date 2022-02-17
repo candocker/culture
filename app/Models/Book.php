@@ -24,6 +24,28 @@ class Book extends AbstractModel
         return $this->hasOne(Figure::class, 'code', 'author');
     }
 
+    public function authorInfos($type = null)
+    {
+        $datas = [];
+        $where = ['book_code' => $this->code];
+        if (!is_null($type)) {
+            $where['type'] = $type;
+        }
+        return BookFigure::where($where)->get();
+    }
+
+    public function formatAuthorData($return = 'name')
+    {
+        $infos = $this->authorInfos();
+        if ($return == 'name') {
+            $string = '';
+            foreach ($infos as $info) {
+                $string .= $info->figure ? $info->figure['name'] . '-' . $info->figure['name_code'] : '匿名';
+            }
+            return $string;
+        }
+    }
+
     public function getCoverUrlAttribute()
     {
         $url = $this->getRepositoryObj()->getAttachmentUrl(['info_table' => 'book', 'info_field' => 'cover', 'info_id' => $this->code]);

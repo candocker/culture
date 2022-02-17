@@ -21,13 +21,152 @@ class TestController extends AbstractController
         exit();
     }
 
+    protected function _testCheckFigure()
+    {
+        $model = $this->getModelObj('figure');
+        $input = $this->request->input('code');
+
+        $bookModel = $this->getModelObj('book');
+        $infos = $bookModel->where('name', 'like', "%{$input}%")->get();
+        if (count($infos) >= 1) {
+            foreach ($infos as $info) {
+                print_R($info->toArray());
+            }
+        }
+        exit();
+
+        $infos = $model->where('name', 'like', "%{$input}%")->orWhere('code', $input)->orWhere('name_card', 'like', "{$input}")->get();
+        if (count($infos) >= 1) {
+            foreach ($infos as $info) {
+                //print_R($info->toArray());
+            }
+        }
+        //exit();
+
+        $sModel = $this->getModelObj('scholarism');
+        $infos = require('/data/log/dealdata/book.php');
+        $sql = '';
+        foreach ($infos as $iKey => $info) {
+            $scholarism = $sModel->find($info['id']);
+            $sql .= "UPDATE `wp_scholarism` SET `book_code` = '{$iKey}' WHERE `id` = {$info['id']};\n";
+            $sql .= "INSERT INTO `wp_book` (`code`, `name`, `description`, `baidu_url`, `publish_at`) VALUES ('{$iKey}', '{$scholarism['name']}', '{$info['description']}', '{$info['baidu_url']}', '{$info['publish_at']}');\n";
+            if (!isset($info['figure'])) {
+                continue;
+            }
+            if (!is_array($info['figure'])) {
+                $sql .= "INSERT INTO `wp_book_figure` (`type`, `book_code`, `figure_code`) VALUES ('author', '{$iKey}', '{$info['figure']}');\n\n";
+                continue;
+            } else {
+                $figure = $info['figure'];
+                $sql .= "INSERT INTO `wp_book_figure` (`type`, `book_code`, `figure_code`) VALUES ('author', '{$iKey}', '{$figure['code']}');\n\n";
+                $sql .= $this->getFigureSql($figure);
+                $sql .= $this->getDateSql('birthday', $info['birthday'], $figure['code']);
+                $sql .= $this->getDateSql('deathday', $info['deathday'], $figure['code']);
+            }
+
+            if (!isset($info['figure1'])) {
+                continue;
+            }
+            if (!is_array($info['figure1'])) {
+                $sql .= "INSERT INTO `wp_book_figure` (`type`, `book_code`, `figure_code`) VALUES ('author', '{$iKey}', '{$info['figure1']}');\n\n";
+                continue;
+            } else {
+                $figure = $info['figure1'];
+                $sql .= "INSERT INTO `wp_book_figure` (`type`, `book_code`, `figure_code`) VALUES ('author', '{$iKey}', '{$figure['code']}');\n\n";
+                $sql .= $this->getFigureSql($figure);
+                $sql .= $this->getDateSql('birthday', $info['birthday1'], $figure['code']);
+                $sql .= $this->getDateSql('deathday', $info['deathday1'], $figure['code']);
+            }
+        }
+        echo $sql;exit();
+
+        echo count($infos);
+        exit();
+    }
+
+    protected function _testDealBook()
+    {
+        $model = $this->getModelObj('book');
+        $bookFigureModel = $this->getModelObj('bookFigure');
+        $infos = $model->orderBy('id', 'asc')->get();
+        $sql = '';
+        $baiduStr = '';
+        $i = 1;
+        foreach ($infos as $info) {
+            $setStr = "`name` = '{$info['name']}', `description` = '' ";
+            $setStr .= ", `baidu_url` = ''";
+            $baiduStr .= $i . '-' . "<a href='https://baike.baidu.com/item/{$info['name']}' target='_blank'>{$info['name']}</a><br />\n\n";
+            $i++;
+            $sql .= "UPDATE `wp_figure` SET {$setStr} WHERE `code` = '{$info['code']}';\n";
+
+            $sql .= "INSERT INTO `wp_figure_title` (`figure_code`, `type`, `title`, `description`, `created_at`, `updated_at`, `deleted_at`, `status`) VALUES ('{$info['code']}', 'englishfull', '', '', '2021-12-27 17:26:25', '2021-12-27 17:26:25', NULL, '0') ;\n\n";
+        }
+        echo $baiduStr;
+        //echo $sql;
+        exit();
+    }
+
     protected function _testDealFigure()
     {
-        $model = $this->getModelObj('emperor');
-        $infos = $model->where('id', '>', 3)->where('id', '<', 50)->get();
+        $model = $this->getModelObj('scholarism');
+        //$infos = $model->where('book_code', '')->orderBy('author', 'asc')->orderBy('id', 'asc')->limit(112)->get();
+        $infos = $model->where('book_code', '')->orderBy('author', 'asc')->orderBy('id', 'asc')->get();
+        //$infos = $model->where('author', 'like', '% %')->get();
+        $sql = '';
+        $baiduStr = '';
+        $i = 1;
+        $bookDatas = [];
         foreach ($infos as $info) {
-            print_r($info->toArray());exit();
+            $baiduStr .= $i . '-' . "<a href='https://baike.baidu.com/item/{$info['name']}' target='_blank'>{$info['name']}</a>";
+            $baiduStr .= '-----------------' . "<a href='https://baike.baidu.com/item/{$info['author']}' target='_blank'>{$info['author']}</a>";
+            $baiduStr .= '-----------------' . "<a href='http://api.91zuiai.com/culture/test?method=checkFigure&code={$info['author']}' target='_blank'>{$info['author']}</a><br />\n\n";
+            $i++;
+            continue;
+
+            $bCode = CommonTool::getSpellStr($info['name'], '');
+            $sql .= "UPDATE `wp_scholarism` SET `book_code` = '{$bCode}' WHERE `id` = {$info['id']};\n";
+            $sql .= "INSERT INTO `wp_book` (`code`, `name`, `description`, `baidu_url`, `publish_at`) VALUES ('{$bCode}', '{$info['name']}', '', '', '');\n";
+            $sql .= "INSERT INTO `wp_book_figure` (`type`, `book_code`, `figure_code`) VALUES ('author', '{$bCode}', '');\n\n";
+
+
+            $sql .= "INSERT INTO `wp_figure` (`code`, `name`, `name_card`, `nationality`, `description`, `baidu_url`) VALUES ('', '{$info['author']}', '', '{$info['nationality']}', '', '');\n";
+            $sql .= "INSERT INTO `wp_dateinfo` (`type`, `era_type`, `info_type`, `info_key`, `accurate`, `year`, `month`, `day`) VALUES ('birthday', '', 'figure', '', '', '', '', '') ;\n";
+            $sql .= "INSERT INTO `wp_dateinfo` (`type`, `era_type`, `info_type`, `info_key`, `accurate`, `year`, `month`, `day`) VALUES ('deathday', '', 'figure', '{$info['code']}', '', '', '', '') ;\n";
+            $sql .= "INSERT INTO `wp_figure_title` (`figure_code`, `type`, `title`) VALUES ('{$info['code']}', 'englishfull', '') ;\n\n";
+            $bookDatas[$bCode] = [
+                'id' => $info['id'],
+                'description' => '',
+                'baidu_url' => '',
+                'publish_at' => '',
+                'figure' => [
+                    'code' => '',
+                    'englishfull' => '',
+                    'name' => $info['author'],
+                    'name_card' => '',
+                    'nationality' => $info['nationality'],
+                    'description' => '',
+                    'baidu_url' => '',
+                ],
+                'birthday' => [
+                    'era_type' => '',
+                    'accurate' => '',
+                    'year' => '',
+                    'month' => '',
+                    'day' => '',
+                ],
+                'deathday' => [
+                    'era_type' => '',
+                    'accurate' => '',
+                    'year' => '',
+                    'month' => '',
+                    'day' => '',
+                ],
+            ];
         }
+        //var_export($bookDatas);exit();
+        echo $baiduStr;
+        //echo $sql;
+        exit();
     }
 
     protected function _testFigure()
@@ -113,6 +252,33 @@ class TestController extends AbstractController
         }
         exit();
         print_R($results);exit();
+    }
+
+    public function getFigureSql($figure)
+    {
+        if (empty($figure['code'])) {
+            print_r($figure);
+        }
+        $exist = $this->getModelObj('figure')->where('code', $figure['code'])->first();
+        if (!empty($exist)) {
+            print_r($exist->toArray());
+            print_r($figure);
+        }
+        $sql = "INSERT INTO `wp_figure` (`code`, `name`, `name_card`, `nationality`, `description`, `baidu_url`) VALUES ('{$figure['code']}', '{$figure['name']}', '{$figure['name_card']}', '{$figure['nationality']}', '{$figure['description']}', '{$figure['baidu_url']}');\n";
+        if (!empty($figure['englishfull'])) {
+            $sql .= "INSERT INTO `wp_figure_title` (`figure_code`, `type`, `title`) VALUES ('{$figure['code']}', 'englishfull', '{$figure['englishfull']}') ;\n\n";
+        } else {
+            //print_r($figure);
+        }
+        return $sql;
+    }
+
+    public function getDateSql($type, $data, $figureCode)
+    {
+        $year = $data['year'] ?: 0;
+        $month = $data['month'] ?: 0;
+        $day = $data['day'] ?: 0;
+        return "INSERT INTO `wp_dateinfo` (`type`, `era_type`, `info_type`, `info_key`, `accurate`, `year`, `month`, `day`) VALUES ('{$type}', '{$data['era_type']}', 'figure', '{$figureCode}', '{$data['accurate']}', '{$year}', '{$month}', '{$day}') ;\n";
     }
 
     public function _test()

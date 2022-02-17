@@ -8,11 +8,11 @@ class FigureRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'created_at', 'status', 'point_operation'],
+            'list' => ['id', 'code', 'name', 'baidu_url', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'description', 'created_at', 'status', 'point_operation'],
             'listSearch' => ['id', 'name', 'keyword'],
             'keyvalueExtSearch' => ['id', 'name', 'keyword'],
-            'add' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
-            'update' => ['code', 'name', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
+            'add' => ['code', 'name', 'baidu_url', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
+            'update' => ['code', 'name', 'baidu_url', 'photo', 'name_card', 'nationality', 'dynasty', 'birthday', 'deathday', 'ftitle', 'baidu_url', 'wiki_url', 'description', 'status'],
         ];
     }
 

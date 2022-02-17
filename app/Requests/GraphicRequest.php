@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Requests;
 
-class DiagramRequest extends AbstractRequest
+class GraphicRequest extends AbstractRequest
 {
     protected function _updateRule()
     {
         return [
-            'id' => ['bail', 'required', 'exists'],
+            //'id' => ['bail', 'required', 'exists'],
         ];
     }
 

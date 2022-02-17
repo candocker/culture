@@ -86,10 +86,10 @@ class AbstractRepository extends AbstractRepositoryBase
         ];
     }
 
-    protected function _ageKeyDatas()
+    protected function _eraKeyDatas()
     {
         return [
-            '' => '未知',
+            '' => '',
             'ancient' => '古代',
             'recent' => '近代',
             'modern' => '现代',
