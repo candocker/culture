@@ -4,6 +4,11 @@ namespace ModuleCulture\Resources;
 
 class Book extends AbstractResource
 {
+    protected function _frontBaseArray()
+    {
+        $data = $this->_frontInfoArray();
+        return $data;
+    }
 
     protected function _frontDetailArray()
     {

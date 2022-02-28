@@ -19,8 +19,10 @@ class Graphic extends AbstractModel
     {
         $repository = $this->getRepositoryObj('culture-scholarism');
         $infos = $this->getModelObj('culture-scholarism')->get();
+        $datas = [];
         foreach ($infos as $info) {
             $resource = $this->getResourceObj('culture-scholarism', ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $repository, 'simpleResult' => false]);
+            $datas[] = $resource->toArray();
         }
         return $resource;
     }

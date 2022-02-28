@@ -8,7 +8,17 @@ class Scholarism extends AbstractResource
 {
     protected function _frontDetailArray()
     {
-        $data = $this->_frontInfoArray();
+        $book = $this->book;
+        $figureDatas = $book->figureDatas;
+
+        $bookRepository = $this->getRepositoryObj('book');
+        $bookResource = $this->getResourceObj('book', ['resource' => $this->book, 'scene' => 'frontBase', 'repository' => $bookRepository, 'simpleResult' => false]);
+        print_r($bookResource->toArray());exit();
+        $result = [
+            'book_code' => $book['code'],
+            'name' => $this->name,
+            //'baidu_url' => 
+        ];
         /*$chapters = $this->chapters;
         $cDatas = [];
         foreach ($chapters as $chapter) {
@@ -21,15 +31,5 @@ class Scholarism extends AbstractResource
         $data['chapters'] = $cDatas;
         $data['chapterNum'] = count($cDatas);*/
         return $data;
-    }
-
-    protected function _frontInfoArray()
-    {
-        return [              
-            'id' => $this->id,
-            'book_code' => $this->book_code,
-            'name' => $this->name,
-            'book' => $this->getResourceObj('book', ['resource' => $this->book, 'scene' => 'frontDetail', 'repository' => $this->getRepositoryObj('book'), 'simpleResult' => false])->toArray(),
-        ];
     }
 }

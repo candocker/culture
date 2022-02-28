@@ -13,6 +13,8 @@ class BookRepository extends AbstractRepository
             'listSearch' => ['id', 'code', 'title', 'author', 'name'],
             'add' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
             'update' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+
+            'frontshow' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
 
