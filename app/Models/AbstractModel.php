@@ -49,14 +49,21 @@ class AbstractModel extends AbstractModelBase
         return 'culture';
     }
 
-    public function getDateinfo($type)
+    public function getDateinfo($type, $result = 'format')
     {
         $keyField = $this->getKeyField();
         $where = ['type' => $type, 'info_type' => $this->table, 'info_key' => $this->$keyField];
         $info = $this->getModelObj('dateinfo')->where($where)->first();
+        if ($result == 'full') {
+            if (empty($info)) {
+                \Log::info('no-info-' . serialize($this->toArray()));
+            }
+            return $info ? $info->toArray() : [];
+        }
         $result = [
             'source' => $info ? $info->formatDateinfo() : '',
             'show' => $info ? $info->formatDateinfo('show') : '',
+            'info' => $info ? $info->toArray() : [],
         ];
         return $result;
     }

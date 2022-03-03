@@ -8,13 +8,13 @@ class BookRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'sort', 'cover', 'name', 'title', 'creative', 'author', 'baidu_url_show', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'updated_at', 'publish_at', 'status'],
-            //'list' => ['id', 'code', 'sort', 'name', 'creative', 'author', 'baidu_url_show', 'baidu_url', 'description', 'publish_at'],
-            'listSearch' => ['id', 'code', 'title', 'author', 'name'],
-            'add' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
-            'update' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'list' => ['id', 'code', 'sort', 'cover', 'name', 'title', 'creative', 'baidu_url_show', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'updated_at', 'publish_at', 'status'],
+            //'list' => ['id', 'code', 'sort', 'name', 'creative', 'baidu_url_show', 'baidu_url', 'description', 'publish_at'],
+            'listSearch' => ['id', 'code', 'title', 'name'],
+            'add' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'update' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
 
-            'frontshow' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'author', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'frontshow' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
 

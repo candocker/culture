@@ -57,7 +57,7 @@ class ScholarismRepository extends AbstractRepository
         ];
     }
 
-    protected function _volumeKeyDatas($sort = '')
+    public function _volumeKeyDatas($sort = '')
     {
         $datas = [
             'one' => '第一辑',

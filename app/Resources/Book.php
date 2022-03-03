@@ -6,7 +6,13 @@ class Book extends AbstractResource
 {
     protected function _frontBaseArray()
     {
-        $data = $this->_frontInfoArray();
+        $data = [
+            'code' => $this->code,
+            'name' => $this->wrapWiki($this->name),
+            'coverUrl' => $this->wrapPicture($this->coverUrl, 'html'),
+            'description' => $this->textMore($this->code, $this->description),
+            'colspan' => 1,
+        ];
         return $data;
     }
 
@@ -29,7 +35,6 @@ class Book extends AbstractResource
 
     protected function _frontInfoArray()
     {
-        $suffix = '?x-oss-process=image/resize,m_pad,h_350,w_250';
         return [              
             'id' => $this->id,
             'code' => $this->code,
@@ -37,7 +42,7 @@ class Book extends AbstractResource
             'note' => $this->note,
             'description' => $this->description,
             'author' => $this->authorInfo,
-            'coverUrl' => $this->coverUrl . $suffix,
+            'coverUrl' => $this->wrapPicture($this->coverUrl),
             'tag' => $this->formatTagDatas($this->tagInfos),
         ];
     }
