@@ -9,6 +9,41 @@ class Tag extends AbstractModel
     protected $table = 'tag';
     public $timestamps = false;
     protected $guarded = ['id'];
+
+    public function formatForBlog()
+    {
+        return [
+              //'_id' => '58a497c813edac2b82566cb3',
+              'id' => $this->id,
+              'name' => $this->name,
+              'slug' => $this->code,
+              'description' => '刹那无常',
+              'extends' => [
+                  ['name' => 'icon', 'value' => 'icon-thinking'],
+              ],
+              //'__v' => 0,
+              //'create_at' => '2017-02-15T18:02:48.778Z',
+              //'update_at' => '2022-03-02T06:00:47.645Z',
+        ];
+        return [
+            [
+            ],
+            [
+              '_id' => '621a91b8c22be1bb38e51437',
+              'name' => '形而上',
+              'slug' => 'metaphysical',
+              'description' => '回归本源',
+              'extends' => [
+                  ['name' => 'icon', 'value' => 'icon-taichi'],
+              ],
+              'create_at' => '2022-02-26T20:46:48.467Z',
+              'update_at' => '2022-02-26T21:10:14.573Z',
+              'id' => 55,
+              '__v' => 0,
+            ],
+        ];
+    }
+
 	//use TagTrait;
 	/*public $add_mul;
 

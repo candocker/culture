@@ -67,4 +67,30 @@ class AbstractModel extends AbstractModelBase
         ];
         return $result;
     }
+
+    public function getStartEnd()
+    {
+        $repository = $this->getRepositoryObj('dateinfo');
+        $typeDatas = $repository->getKeyValues('accurate');
+
+        $start = $this->getDateinfo('start', 'full');
+        $end = $this->getDateinfo('end', 'full');
+        if (empty($start) ||empty($end)) {
+            print_r($this->toArray());
+            return ['ageStr' => '', 'startStr' => '', 'endStr' => ''];
+        }
+        $age = $end['accurate'] == 'running' ? '-' : '';
+        $age = empty($age) ? $start['accurate'] == 'unknown' || $end['accurate'] == 'unknown' ? '未知' : $end['year'] - $start['year'] + 1 : $age;
+        $startStr = empty($start['year']) ? '-' : "{$start['year']} / {$start['month']} / {$start['day']}";
+        $startStr = ($start['accurate'] ? $typeDatas[$start['accurate']] . ' ' : '') . $startStr;
+
+        $endStr = empty($end['year']) ? '-' : "{$end['year']} / {$end['month']} / {$end['day']}";
+        $endStr = ($end['accurate'] ? $typeDatas[$end['accurate']] . ' ' : '') . $endStr;
+
+        return [
+            'timeSpan' => intval($age),
+            'startStr' => '起始时间:' . $startStr,
+            'endStr' => '截止时间:' . $endStr,
+        ];
+    }
 }

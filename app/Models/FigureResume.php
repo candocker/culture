@@ -9,6 +9,11 @@ class FigureResume extends AbstractModel
     protected $table = 'figure_resume';
     protected $guarded = ['id'];
 
+    public function figure()
+    {
+        return $this->hasOne(Figure::class, 'code', 'figure_code');
+    }
+
     public function afterSave()
     {
         $request = request();
