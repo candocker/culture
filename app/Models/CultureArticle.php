@@ -21,11 +21,11 @@ class CultureArticle extends AbstractModel
         return $url;
     }
 
-    public function formatForBlog()
+    public function formatForBlog($type = null)
     {
         $data = [
             //'_id' => '621aa63da251efe10b93f33f',
-            'ad' => 1,
+            //'ad' => 1,
             'slug' => 'peace-and-love',
             'title' => $this->name,//'战争与和平',
             'description' => $this->description,//'Peace & Love',
@@ -51,6 +51,9 @@ class CultureArticle extends AbstractModel
         $tagDatas = [];
         foreach ($tags as $tag) {
             $tagDatas[] = $tag->formatForBlog();
+        }
+        if ($type == 'detail') {
+            $data['content'] = $this->content;
         }
         $data['tag'] = $tagDatas;
         return $data;

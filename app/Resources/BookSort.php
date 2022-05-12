@@ -15,7 +15,7 @@ class BookSort extends AbstractResource
             'name' => $this->name,
             'description' => $this->description,
             'bookNum' => $this->book_num,
-            'thumbUrl' => $url ? $url . $suffix : 'http://ossfile.canliang.wang/book/33532bc9-66f5-4d59-83c3-1d4b6f186096.jpg' . $suffix,
+            'thumbUrl' => $url ? $url . $suffix : 'http://ossfile.canliang.wang/book/cover_scholarism/33532bc9-66f5-4d59-83c3-1d4b6f186096.jpg' . $suffix,
         ];
     }
 }

@@ -19,6 +19,15 @@ class Book extends AbstractModel
         return $this->hasMany(TagInfo::class, 'info_id', 'id')->where('info_type', 'book');
     }
 
+    public function authorData()
+    {
+        $data = BookFigure::where(['book_code' => $this->code])->first();
+        if (empty($data)) {
+            return new BookFigure();
+        }
+        return $data->figure;
+    }
+
     public function authorInfo()
     {
         return $this->hasOne(Figure::class, 'code', 'author');

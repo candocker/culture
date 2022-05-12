@@ -21,6 +21,22 @@ class TestController extends AbstractController
         exit();
     }
 
+    protected function _testDealChapter()
+    {
+        $bookCodes = ['mengzi', 'mengzihu'];
+        $books = $this->getModelObj('book')->where('author', 'team')->whereIn('code', $bookCodes)->get();
+        $datas = [];
+        foreach ($books as $book) {
+            $chapters = $book->chapters;
+            $i = 1;
+            foreach ($chapters as $chapter) {
+                $datas[$book['code']]['chapters'][] = ['code' => $i, 'name' => $chapter['name']];
+                $i++;
+            }
+        }
+        var_export($datas);
+    }
+
     protected function _testCheckFigure()
     {
         $model = $this->getModelObj('figure');

@@ -41,7 +41,7 @@ class Book extends AbstractResource
             'name' => $this->name,
             'note' => $this->note,
             'description' => $this->description,
-            'author' => $this->authorInfo,
+            'author' => $this->authorData(),//$this->authorInfo,
             'coverUrl' => $this->wrapPicture($this->coverUrl),
             'tag' => $this->formatTagDatas($this->tagInfos),
         ];
