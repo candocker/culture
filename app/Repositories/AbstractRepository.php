@@ -97,6 +97,13 @@ class AbstractRepository extends AbstractRepositoryBase
         ];
     }
 
+    protected function _publishHouseKeyDatas()
+    {
+        return [
+            'peoplesliterature' => '人民文学出版社',
+        ];
+    }
+
     protected function _accurateKeyDatas()
     {
         return [

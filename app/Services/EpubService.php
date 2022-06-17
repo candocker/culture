@@ -63,6 +63,7 @@ class EpubService extends AbstractService
     public function renderMeta($data)
     {
        $this->log->logLine("Add Cover Image");
+       echo $data->name . '===' . $data->coverUrl;
        $this->book->setCoverImage($data->coverUrl);
     }
 
@@ -81,7 +82,7 @@ class EpubService extends AbstractService
     {
        $this->book->finalize(); // Finalize the book, and build the archive.
        //$path = $this->config->get('culture.epub_path');
-       $path = $this->config->get('culture.epub_path') . $book['author'];
+       $path = $this->config->get('culture.epub_path') . $book['path'];
        if (!is_dir($path)) {
            mkdir($path);
        }

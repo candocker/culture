@@ -13,7 +13,7 @@ class AbstractModel extends AbstractModelBase
 	public function getBookPath($book)
 	{
 		$base = $this->config->get('culture.book_path');
-		$path = "{$base}{$book['author']}/{$book['code']}/";
+		$path = "{$base}{$book['path']}/{$book['code']}/";
 		return $path;
 	}
 

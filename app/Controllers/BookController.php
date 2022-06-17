@@ -39,8 +39,8 @@ class BookController extends AbstractController
     public function epub()
     {
         $model = $this->getModelObj();
-        //$infos = $model->where(['extfield1' => ''])->limit(100)->get();
-        $infos = $model->where(['code' => 'luxunpinglun'])->limit(100)->get();
+        $infos = $model->where(['type' => 'epub', 'extfield1' => ''])->limit(100)->get();
+        //$infos = $model->where(['code' => 'luxunpinglun'])->limit(100)->get();
         foreach ($infos as $book) {
             $epubService = $this->getServiceObj('epub');
             $epubService->initBook();
