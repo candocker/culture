@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Resources;
 
-class Scholarism extends AbstractResource
+class BookPublish extends AbstractResource
 {
     protected function _frontBaseArray()
     {

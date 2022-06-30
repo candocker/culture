@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Models;
 
-class Scholarism extends AbstractModel
+class BookPublish extends AbstractModel
 {
-    protected $table = 'scholarism';
+    protected $table = 'book_publish';
     public $timestamps = false;
     protected $guarded = ['id'];
 

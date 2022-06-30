@@ -2,13 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace ModuleCulture\Models;
+namespace ModuleCulture\Services;
 
-class Graphic extends AbstractModel
+class GraphicService extends AbstractService
 {
-    protected $table = 'graphic';
-    protected $guarded = ['id'];
-
     public function formatResultDatas($code, $extcode, $params)
     {
         $method = "_{$code}FormatDatas";

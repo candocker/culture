@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Repositories;
 
-class ScholarismRepository extends AbstractRepository
+class BookPublishRepository extends AbstractRepository
 {
     protected function _sceneFields()
     {
