@@ -8,22 +8,20 @@ class BookRepository extends AbstractRepository
     protected function _sceneFields()
     {
         return [
-            'list' => ['id', 'code', 'sort', 'cover', 'name', 'title', 'creative', 'baidu_url_show', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'updated_at', 'publish_at', 'status'],
+            'list' => ['id', 'code', 'sort', 'category', 'cover', 'name', 'creative', 'baidu_url_show', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'updated_at', 'publish_at', 'status'],
             //'list' => ['id', 'code', 'sort', 'name', 'creative', 'baidu_url_show', 'baidu_url', 'description', 'publish_at'],
-            'listSearch' => ['id', 'code', 'title', 'name'],
-            'add' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
-            'update' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'listSearch' => ['id', 'code', 'name'],
+            'add' => ['code', 'cover', 'sort', 'name', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'update' => ['code', 'cover', 'sort', 'name', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
 
-            'frontshow' => ['code', 'cover', 'sort', 'name', 'title', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
+            'frontshow' => ['code', 'cover', 'sort', 'name', 'creative', 'baidu_url', 'wiki_url', 'position', 'orderlist', 'note', 'description', 'publish_at', 'status'],
         ];
     }
 
     public function getShowFields()
     {
         return [
-            //'category_first' => ['valueType' => 'select', 'showType' => 'select'],
-            //'category_second' => ['valueType' => 'select', 'showType' => 'select'],
-            //'category_third' => ['valueType' => 'select', 'showType' => 'select'],
+            'category' => ['valueType' => 'select', 'showType' => 'select'],
             'sort' => ['valueType' => 'select', 'showType' => 'select', 'infos' => $this->getPointKeyValues('bookSort')],
             'creative' => ['valueType' => 'extinfo', 'extType' => 'creative'],
         ];
@@ -34,9 +32,7 @@ class BookRepository extends AbstractRepository
         return [
             'creative' => ['type' => 'complexSelectSearch', 'typeInfos' => $this->getKeyValues('creative'), 'searchResource' => 'figure'],
             'sort' => ['type' => 'select', 'infos' => $this->getPointKeyValues('bookSort')],
-            //'category_first' => ['type' => 'select', 'infos' => $this->getKeyValues('categoryFirst')],
-            //'category_second' => ['type' => 'select', 'infos' => $this->getKeyValues('categorySecond')],
-            //'category_third' => ['type' => 'select', 'infos' => $this->getKeyValues('categoryThird')],
+            'category' => ['type' => 'select', 'infos' => $this->getKeyValues('category')],
             //'user_id' => ['type' => 'selectSearch', 'require' => ['add'], 'searchResource' => 'user'],
             //'birthday' => ['type' => 'dateinfo', 'eraInfos' => $this->getKeyValues('eraType')],
         ];
@@ -127,6 +123,27 @@ class BookRepository extends AbstractRepository
 		];
 	}
 
+    public function _categoryKeyDatas()
+    {
+        return [
+            'american' => '美国学术',
+            //'assembly' => '汇编/综合',
+            'britain' => '英国学术',
+            'china' => '中国学术',
+            //'classical' => '中华古典',
+            'essence' => '精华',
+            'france' => '法国学术',
+            'germany' => '德国学术',
+            //'history' => '历史',
+            'kafka' => '卡夫卡',
+            'lresearch' => '鲁迅研究',
+            'luxun' => '鲁迅',
+            'other' => '其他学术',
+            //'philosophy' => '哲学',
+            'scholarism' => '学术名著',
+        ];
+    }
+
     public function getDefaultSort()
     {
         return ['id' => 'desc'];
@@ -137,17 +154,7 @@ class BookRepository extends AbstractRepository
         return $this->getPointCaches('bookSort', 'tree');
     }
 
-    public function _categoryFirstKeyDatas()
-    {
-        return $this->getPointCaches('category', 'tree');
-    }
-
-    public function _categorySecondKeyDatas()
-    {
-        return $this->getPointCaches('category', 'tree');
-    }
-
-    public function _categoryThirdKeyDatas()
+    public function _categoryDatas()
     {
         return $this->getPointCaches('category', 'tree');
     }

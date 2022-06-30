@@ -26,7 +26,7 @@ class BookController extends AbstractController
         $category = $request->input('category');
         $keyword = $request->input('keyword');
         if (!empty($category)) {
-            $query = $query->orWhere('category_first', $category)->orWhere('category_second', $category)->orWhere('category_third', $category);
+            $query = $query->where('category', $category);
         }
         if (!empty($keyword)) {
             $query = $query->where('name', 'like', "%{$keyword}%");
@@ -39,8 +39,8 @@ class BookController extends AbstractController
     public function epub()
     {
         $model = $this->getModelObj();
-        $infos = $model->where(['type' => 'epub', 'extfield1' => ''])->limit(100)->get();
-        //$infos = $model->where(['code' => 'luxunpinglun'])->limit(100)->get();
+        //$infos = $model->where(['type' => 'epub', 'extfield1' => ''])->limit(100)->get();
+        $infos = $model->whereIn('code', ['shijizhu'])->limit(100)->get();
         foreach ($infos as $book) {
             $epubService = $this->getServiceObj('epub');
             $epubService->initBook();

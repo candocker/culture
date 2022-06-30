@@ -60,7 +60,7 @@ class AbstractRepository extends AbstractRepositoryBase
 
     public function _categoryKeyDatas()
     {
-        return $this->getPointCaches('category');
+        return $this->getPointCaches('category', 'tree');
     }
 
     public function tmpThumb($model, $field = '', $pointField = 'extfield')
@@ -101,6 +101,7 @@ class AbstractRepository extends AbstractRepositoryBase
     {
         return [
             'peoplesliterature' => '人民文学出版社',
+            'commercialpress' => '商务印书馆',
         ];
     }
 
