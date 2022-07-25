@@ -146,7 +146,7 @@ class BookPublishRepository extends AbstractRepository
         $currentSort = $currentSort ?: 'philosophy';
         $volumeDatas = $this->_volumeKeyDatas($currentSort);
         //$volumeDatas = $volumeDatas[$currentSort];
-        $infos = $this->getModelObj('scholarism')->where(['sort' => $currentSort])->orderBy('serial', 'asc')->get();
+        $infos = $this->getModelObj('bookPublish')->where(['sort' => $currentSort])->orderBy('serial', 'asc')->get();
         $books = [];
         foreach ($infos as $book) {
             $books[$book['volume']][] = $book->toArray();

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ModuleCulture\Requests;
 
-class BookPublishRequest extends AbstractRequest
+class SeriesRequest extends AbstractRequest
 {
     protected function _updateRule()
     {

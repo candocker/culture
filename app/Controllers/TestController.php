@@ -24,6 +24,212 @@ class TestController extends AbstractController
         //$bCode = CommonTool::getSpellStr($info['name'], '');
     }
 
+    public function _testDealguwen()
+    {
+        $path = '/data/htmlwww/laravel-system/vendor/candocker/website/migrations/xunzibak/';
+        $files = CommonTool::getPathFiles($path);
+        $elems = ['content', 'vernacular', 'note'];
+        foreach ($files as $file) {
+            //echo $file . "\n";
+            $old = require($path . $file);
+            //print_r($old);
+            $name = $old['name'];
+
+            $chapter = $old['chapters'][0];
+
+            //echo $spellFirst;exit();
+            $contentFirst = $chapter['content'][0];
+            $vernacularFirst = $chapter['vernacular'][0];
+
+
+            $str = "<?php\nreturn [\n    'name' => '{$name}',\n    'keyword' => '{$vernacularFirst}',\n";
+            $str .= "    'chapters' => [\n        [\n";
+            /*if (!isset($chapter['note'])) {
+                echo $file . "\n";
+            }
+            continue;*/
+            $nCount = count($chapter['note']);
+            if ($nCount == 1) {
+                $notes = [];
+                $noteStr = $chapter['note'][0];
+            echo $noteStr;
+            $noteTmp = explode('（', $noteStr);
+            print_r($noteTmp);
+            foreach ($noteTmp as $i =>  $noteStr) {
+                if ($i === 0) {
+                    continue;
+                }
+                $notes[] = '（' . $noteStr;
+            }
+            $chapter['note'] = $notes;
+            }
+            //$chapter['note'] = empty($notes) ? $chapter['note'] : $notes;
+            foreach ($elems as $elem) {
+                $eDatas = $chapter[$elem];
+                if ($elem == 'vernacular') {
+                    unset($eDatas[0]);
+                }
+                $elemStr = $elem == 'note' ? 'notes' : $elem;
+                $str .= "            '{$elemStr}' => [\n";
+                foreach ($eDatas as $eData) {
+                    $eStr = trim($eData);
+                    $eStr = str_replace(' ', '', $eStr);
+                    //$eStr = str_replace('，', '， ', $eStr);
+                    $str .= "                '{$eStr}',\n";
+                }
+                $str .= "            ],\n";
+            }
+            $str .= "        ],\n    ],\n];";
+            $newFile = str_replace('bak', '', $path) . $file;
+            //echo $newFile;
+            file_put_contents($newFile, $str);
+            //print_r($old);exit();
+        }
+        echo 'ssssssss';
+        exit();
+        $infos = require('/tmp/a.php');
+        $files = CommonTool::getPathFiles($path);
+        //print_r($infos);exit();
+        foreach ($files as $file) {
+            $bIndex = str_replace('.php', '', $file);
+            $author = $infos[$bIndex - 1];
+            echo $file . "\n";
+            $old = require($path . $file);
+            $chapter = $old['chapters'][0];
+            $name = $old['name'];
+            $nameShort = trim(substr($name, strpos($name, ' ')));
+            $name = str_replace('・', ' ', $name);
+            $keyword = trim($chapter['vernacular'][0]);
+            $keyword = str_replace('关键词：', '', $keyword);
+            //echo $nameShort . '-' . $keyword;
+
+            $vernacular = $chapter['vernacular'];
+            //print_r($vernacular);
+            $count = count($chapter['content']);
+            $count2 = count($chapter['vernacular']);
+            $vernacularNew = array_slice($vernacular, 0, $count + 1);
+            $notes = array_slice($vernacular, $count + 1);
+            //print_r($notes);
+            //echo '==' . $count . '==' . $count2 . '==';
+
+            $str = "<?php\nreturn [\n    'name' => '{$name}',\n    'nameShort' => '{$nameShort}',\n    'author' => '{$author}',\n    'keyword' => '{$keyword}',\n";
+            $str .= "    'chapters' => [\n        [\n";
+            $str .= "            'content' => [\n";
+            foreach ($chapter['content'] as $eData) {
+                /*if (strpos($eDatas[0], '·') === false && strpos($eDatas[0], '赏析') === false && strpos($eDatas[0], '关键词：') === false) {
+                    echo $eDatas[0] . "\n";
+                }*/
+                $eStr = trim($eData);
+                $eStr = str_replace(' ', '', $eStr);
+                    echo $eStr . "\n";
+                $str .= "                '{$eStr}',\n";
+            }
+            $str .= "            ],\n";
+            $str .= "            'notes' => [\n";
+            foreach ($notes as $eData) {
+                /*if (strpos($eDatas[0], '·') === false && strpos($eDatas[0], '赏析') === false && strpos($eDatas[0], '关键词：') === false) {
+                    echo $eDatas[0] . "\n";
+                }*/
+                $eStr = trim($eData);
+                //echo $eStr . "\n";
+                if (strpos($eStr, '》') !== false && strpos($eStr, '《') === false) {
+                    echo $eStr . "\n";
+                }
+                if (strpos($eStr, '〕') !== false && strpos($eStr, '〔') === false) {
+                    //echo $eStr . "\n";
+                }
+                if (strpos($eStr, '】') !== false && strpos($eStr, '【') === false) {
+                    //echo $eStr . "\n";
+                }
+                    //echo $eStr . "\n";
+                $eStr = str_replace(' ', '', $eStr);
+                $str .= "                '{$eStr}',\n";
+            }
+            $str .= "            ],\n";
+            if (strpos($vernacularNew[0], '关键词：') !== false) {
+                unset($vernacularNew[0]);
+            }
+            $str .= "            'vernacular' => [\n";
+            foreach ($vernacularNew as $eData) {
+                /*if (strpos($eDatas[0], '·') === false && strpos($eDatas[0], '赏析') === false && strpos($eDatas[0], '关键词：') === false) {
+                    echo $eDatas[0] . "\n";
+                }*/
+                $eStr = trim($eData);
+                $eStr = str_replace(' ', '', $eStr);
+                $str .= "                '{$eStr}',\n";
+            }
+            $str .= "            ],\n";
+
+            $str .= "        ],\n    ],\n];";
+            $newFile = str_replace('bak', '', $path) . $file;
+            //file_put_contents('/tmp/c.php', $str);exit();
+            //echo $newFile;
+            file_put_contents($newFile, $str);
+            //print_r($vernacularNew);exit();
+            //print_r($old);exit();
+        }
+
+
+        exit();
+        $path = '/data/htmlwww/laravel-system/vendor/candocker/website/migrations/shijingbak/';
+        $files = CommonTool::getPathFiles($path);
+        $elems = ['spell', 'content', 'vernacular', 'unscramble', 'note'];
+        $infos = require('/tmp/a.php');
+        foreach ($files as $file) {
+            echo $file . "\n";
+            $old = require($path . $file);
+            //print_r($old);
+            $name = $old['name'];
+            $nameInfos = explode('·', $name);
+            $nameNew = implode('·', array_reverse($nameInfos));
+            $nameNew = str_replace('  ', ' ', $nameNew);
+            $nameShort = substr($nameNew, 0, strpos($nameNew, '·'));
+
+            $chapter = $old['chapters'][0];
+            $spells = $chapter['spell'];
+
+            $spellFirst = $chapter['spell'][0];
+            //echo $spellFirst;
+            $spellFirst = substr($spellFirst, strrpos($spellFirst, '·') + 2);
+            $spellFirst = str_replace('  ', ' ', $spellFirst);
+            $spellFirst = str_replace('  ', ' ', $spellFirst);
+
+            //echo $spellFirst;exit();
+            $contentFirst = $chapter['content'][0];
+            $vernacularFirst = $chapter['vernacular'][0];
+
+
+            $brief = $infos[$file];
+            $str = "<?php\nreturn [\n    'name' => '{$nameNew}',\n    'nameShort' => '{$nameShort}',\n    'nameSpell' => '{$spellFirst}',\n    'brief' => '{$brief}',\n    'keyword' => '{$vernacularFirst}',\n";
+            $str .= "    'chapters' => [\n        [\n";
+            foreach ($elems as $elem) {
+                $eDatas = $chapter[$elem];
+                if ($elem != 'note') {
+                    if (strpos($eDatas[0], '·') === false && strpos($eDatas[0], '赏析') === false && strpos($eDatas[0], '关键词：') === false) {
+                        echo $eDatas[0] . "\n";
+                    }
+                    unset($eDatas[0]);
+                }
+                $elemStr = $elem == 'note' ? 'notes' : $elem;
+                $str .= "            '{$elemStr}' => [\n";
+                foreach ($eDatas as $eData) {
+                    $eStr = trim($eData);
+                    $eStr = str_replace(' ', '', $eStr);
+                    //$eStr = str_replace('，', '， ', $eStr);
+                    $str .= "                '{$eStr}',\n";
+                }
+                $str .= "            ],\n";
+            }
+            $str .= "        ],\n    ],\n];";
+            $newFile = str_replace('bak', '', $path) . $file;
+            //echo $newFile;
+            file_put_contents($newFile, $str);
+            //print_r($old);exit();
+        }
+        echo 'ssssssss';
+        exit();
+    }
+
     public function _testDealview()
     {
         $baseData = require('/tmp/text/f.php');
@@ -148,48 +354,6 @@ class TestController extends AbstractController
         }
         exit();
         print_r(array_keys($result));
-        exit();
-        $path = '/data/database/books/';
-        $filePath = '/data/htmlwww/filesys/books/';
-        $files = CommonTool::getPathFiles($path);
-        $command = '';
-        /*foreach ($files as $file) {
-            $subPath = $path . $file;
-            $subFiles = CommonTool::getPathFiles($subPath);
-            foreach ($subFiles as $subFile) {
-                $book = $this->getModelObj('book')->where(['code' => $subFile])->first();
-                if (empty($book)) {
-                    $fileNew = str_replace(['.epub', '—', '——', '-', '·', '：'], ['', '', '', '', '', ''], $subFile);
-                    //echo $subFile . '=' . $subFile . '==<br />';
-                    $command .= "mv {$subPath}/{$subFile} {$subPath}/{$fileNew};\n";
-                }
-            }
-        }*/
-        $infos = $this->getModelObj('book')->where(['type' => 'epub'])->limit(2000)->get();
-        foreach ($infos as $info) {
-            $bookPath = $path . $info['path'] . '/' . $info['code'];
-            $epubPath = $filePath . $info['path'] . '/' . $info['code'] . '.epub';
-            if (!file_exists($bookPath)) {
-                echo 'bbb-' . $info['name'] . '==' . $bookPath . '<br />';
-            }
-            if (!file_exists($epubPath)) {
-                echo 'fff-' . $info['name'] . '==' . $epubPath . '<br />';
-            }
-        }
-        echo $command;
-        exit();
-
-        //$bookFigures = $this->getModelObj('bookFigure')->where(['figure_code' => 'luxun'])->limit(2000)->get();
-        $infos = $this->getModelObj('book')->where(['type' => 'epub'])->limit(2000)->get();
-        $str = '';
-        foreach ($infos as $info) {
-            $count = $this->getModelObj('book')->where(['code' => $info['book_code']])->count();
-            if (empty($count) || $count > 1) {
-                echo $count . '-' . $info->book_code . '-' . $info->name . '<br />';// . '==' . "<a href='{$info->book['baidu_url']}' target='_blank'>{$info->book['name']}</a>" . '<br />';
-                $str .= "'{$info->book_code}',";
-            }
-        }
-        echo $str;
         exit();
     }
 

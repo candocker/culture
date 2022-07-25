@@ -102,6 +102,8 @@ class AbstractRepository extends AbstractRepositoryBase
         return [
             'peoplesliterature' => '人民文学出版社',
             'commercialpress' => '商务印书馆',
+            'shanghairevival' => '上海复社',
+            'nationallbrarypress' => '国家图书馆出版社',
         ];
     }
 
