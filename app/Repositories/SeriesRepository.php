@@ -45,4 +45,12 @@ class SeriesRepository extends AbstractRepository
             99 => '锁定',
         ];
     }
+
+    public function getSeriesDatas($pointCodes)
+    {
+        $pointSortStr = implode(',', $pointCodes);
+        $infos = $this->whereIn('code', $pointCodes)->orderByRaw(\DB::raw("FIND_IN_SET(code, '{$pointSortStr}') asc"))->get();
+        $datas = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $this, 'simpleResult' => true]);
+        return $datas;
+    }
 }

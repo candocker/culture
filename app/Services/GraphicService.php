@@ -197,6 +197,7 @@ class GraphicService extends AbstractService
             $footerLink['name'] = "<a href='/{$footerLink['code']}' target='_blank'>{$footerLink['name']}</a>";
             $footerLink['colspan'] = 1;
         }
+        print_r($footerLinks);exit();
         return [
             [
                 'view' => 'simple',
