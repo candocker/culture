@@ -28,6 +28,9 @@ class AbstractResource extends AbstractResourceBase
         if (empty($url)) {
             return '';
         }
+        if ($return == 'original') {
+            return $url;
+        }
         $suffix = "?x-oss-process=image/resize,m_pad,h_{$height},w_{$width}";
         $url = $url . $suffix;
         return $return == 'html' ? "<img src='{$url}' />" : $url;

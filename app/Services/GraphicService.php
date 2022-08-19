@@ -6,6 +6,90 @@ namespace ModuleCulture\Services;
 
 class GraphicService extends AbstractService
 {
+    public function formatAllSeries()
+    {
+        $model = $this->getModelObj('series');
+        $infos = $model->orderBy('orderlist', 'desc')->get();
+        $repository = $this->getRepositoryObj('series');
+        $datas = $this->getCollectionObj('series', ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+
+        $headers = [
+            'series' => ['name' => '丛书名称', 'brief' => '丛书简介', 'publish_at' => '出版时间', 'press' => '出版社', 'pointOperation' => '操作'],
+            'volume' => ['name' => '名称', 'description' => '描述', 'press' => '出版社'],
+        ];
+        $tdk = [
+            'title' => '经典丛书系列',
+            'keywords' => '',
+            'description' => '',
+        ];
+        $result = [
+            'title' => '经典丛书系列',
+            'description' => '',
+            'tdkData' => $tdk, 
+            'graphicDatas' => $datas,
+            'headers' => $headers,
+        ];
+
+        return $result;
+    }
+
+    public function formatSeriesDatas($code)
+    {
+        $model = $this->getModelObj('seriesVolume');
+        $infos = $model->where(['series_code' => $code])->get();
+        $repository = $this->getRepositoryObj('seriesVolume');
+        $datas = $this->getCollectionObj('seriesVolume', ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+
+        $seriesData = $this->getModelObj('series')->where(['code' => $code])->first();
+
+        $headers = [
+            'volume' => ['name' => '名称', 'description' => '描述', 'book_num' => '图书数', 'press' => '出版社', 'pointOperation' => '操作'],
+            'book' => ['name' => '名称', 'description' => '描述'],
+        ];
+        $tdk = [
+            'title' => $seriesData['name'] . '-经典丛书系列',
+            'keywords' => '',
+            'description' => '',
+        ];
+        $result = [
+            'tdkData' => $tdk, 
+            'graphicDatas' => $datas,
+            'seriesData' => $seriesData,
+            'headers' => $headers,
+        ];
+
+        return $result;
+    }
+
+    public function formatVolumeDatas($volumeId)
+    {
+        $model = $this->getModelObj('bookPublish');
+        $infos = $model->where(['series_volume_id' => $volumeId])->get();
+        $repository = $this->getRepositoryObj('bookPublish');
+        $datas = $this->getCollectionObj('bookPublish', ['resource' => $infos, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => true]);
+
+        $volumeData = $this->getModelObj('seriesVolume')->where(['id' => $volumeId])->first();
+        $seriesData = $volumeData->series;
+
+        $headers = [
+            'book' => ['name' => '名称', 'description' => '描述'],
+        ];
+        $tdk = [
+            'title' => $seriesData['name'] . '-经典丛书系列',
+            'keywords' => '',
+            'description' => '',
+        ];
+        $result = [
+            'tdkData' => $tdk, 
+            'graphicDatas' => $datas,
+            'seriesData' => $seriesData,
+            'volumeData' => $volumeData,
+            'headers' => $headers,
+        ];
+
+        return $result;
+    }
+
     public function formatResultDatas($code, $extcode, $params)
     {
         $method = "_{$code}FormatDatas";

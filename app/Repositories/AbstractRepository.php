@@ -104,6 +104,7 @@ class AbstractRepository extends AbstractRepositoryBase
             'commercialpress' => '商务印书馆',
             'shanghairevival' => '上海复社',
             'nationallbrarypress' => '国家图书馆出版社',
+            'zhonghuabook' => '中华书局',
         ];
     }
 

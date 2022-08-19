@@ -6,10 +6,8 @@ namespace ModuleCulture\Resources;
 
 class SeriesVolume extends AbstractResource
 {
-    protected function _frontInfoArray()
+    protected function _frontBaseArray()
     {
-        //$volumes = $this->volumes;
-        //$vDatas = $this->getCollectionObj('seriesVolume', ['resource' => $volumes, 'scene' => 'frontInfo', 'repository' => $this->getRepositoryObj('seriesVolume'), 'simpleResult' => true]);
         $series = $this->series;
         $press = $this->getRepository()->getKeyValues('press', $this->press);
         $press = empty($press) ? $series->getRepositoryObj()->getKeyValues('press', $series->press) : $press;
@@ -24,5 +22,14 @@ class SeriesVolume extends AbstractResource
             'book_num' => $this->book_num,
 
         ];
+    }
+
+    protected function _frontInfoArray()
+    {
+        $bookPublishes = $this->bookPublishes;
+        $bDatas = $this->getCollectionObj('bookPublish', ['resource' => $bookPublishes, 'scene' => 'frontBase', 'repository' => $this->getRepositoryObj('bookPublish'), 'simpleResult' => true]);
+        $data = $this->_frontBaseArray();
+        $data['books'] = $bDatas;
+        return $data;
     }
 }

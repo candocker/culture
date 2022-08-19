@@ -88,55 +88,7 @@ class BookPublishRepository extends AbstractRepository
             ];
         }
         return $datas;
-        /*return [
-            'philosophy' => [
-                'one' => '（一）1981年起',
-                'two' => '（二）1982年起',
-                'three' => '（三）1985年起',
-                'four' => '（四）1986年起',
-                'five' => '（五）1989年起',
-                'six' => '（六）1991年起',
-                'seven' => '（七）1996年起',
-                'eight' => '（八）1999年起',
-                'nine' => '（九）2001年起',
-            ],
-            'history' => [
-                'one' => '（一）1981年起',
-                'two' => '（二）1982年起',
-                'three' => '（三）1985年起',
-                'four' => '（四）1986年起',
-                'five' => '（五）1989年起',
-                'six' => '（六）1991年起',
-                'seven' => '（七）1995-96年',
-                'eight' => '（八）1999-2001年',
-            ],
-            'politics' => [
-                'one' => '（一）1981年起',
-                'two' => '（二）1982年起',
-                'three' => '（三）1985年起',
-                'four' => '（四）1986年起',
-                'five' => '（五）1989年起',
-                'six' => '（六）1991年起',
-                'seven' => '（七）1996年起',
-                'eight' => '（八）1999年起',
-                'nine' => '（九）2001年起',
-            ],
-            'economics' => [
-                'one' => '（一）1981年起',
-                'two' => '（二）1983年起',
-                'three' => '（三）1985年起',
-                'four' => '（四）1986年起',
-                'five' => '（五）1989年起',
-                'six' => '（六）1991年起',
-                'seven' => '（七）1996年起',
-                'eight' => '（八）1999年起',
-                'nine' => '（九）2001年起',
-            ],
-            'language' => [
-                'one' => '（一）1999年起',
-                'two' => '（二）1999-2001年',
-            ],
-        ];*/
+        /*return ;*/
     }
 
     public function getCategoryDatas($currentSort = 'philosophy')

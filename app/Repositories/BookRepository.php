@@ -158,4 +158,13 @@ class BookRepository extends AbstractRepository
     {
         return $this->getPointCaches('category', 'tree');
     }
+
+    public function getDetail($code)
+    {
+        $model = $this->getModelObj('book');
+        $info = $model->where(['code' => $code])->first();
+
+        $resource = $this->getResourceObj(null, ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $this, 'simpleResult' => false]);
+        return $resource;
+    }
 }

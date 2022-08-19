@@ -5,19 +5,32 @@ declare(strict_types = 1);
 namespace ModuleCulture\Controllers;
 
 use Swoolecan\Foundation\Helpers\CommonTool;
+use Carbon\Carbon;
 
 class TestController extends AbstractController
 {
     public function test()
     {
+    $date1 = Carbon::parse('2021-4-6 01:00');//:00:01');//->startOfDay();
+    print_r($date1);exit();
+$date2 = Carbon::parse('2021-04-07 00:00:00');//->startOfDay();
+print_r($date2);
+$d = $date1->diffInDays($date2);//相差天数的绝对值（正数）
+var_dump($d);exit();
         $request = $this->request;
         $inTest = config('app.inTest');
         if (empty($inTest)) {
             return $this->error(400, '非法请求');
         }
         $method = ucfirst($request->input('method', ''));
-        $method = "_test{$method}";
-        $this->$method($request);
+        //$method = "_test{$method}";
+        //$this->$method($request);
+
+        foreach ($r as $sCode => $info) {
+            foreach ($info as $vCode => $brief) {
+                //$this->getModelObj('seriesVolume')->where(['series_code' => $sCode, 'extfield' => $vCode])->update(['brief' => $brief]);
+            }
+        }
         exit();
         //$path = '/data/htmlwww/filesys/booksold/';
         //$files = CommonTool::getPathFiles($path);

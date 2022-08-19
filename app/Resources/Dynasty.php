@@ -19,4 +19,8 @@ class Dynasty extends AbstractResource
         return $data;
     }
 
+    protected function _frontDetailArray()
+    {
+        return $this->_frontBaseArray();
+    }
 }

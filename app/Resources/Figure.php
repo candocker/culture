@@ -12,7 +12,7 @@ class Figure extends AbstractResource
 
     protected function _frontInfoArray()
     {
-        return [];
+        return $this->_baseData();
     }
 
     protected function _frontBaseArray()
@@ -28,7 +28,6 @@ class Figure extends AbstractResource
                 $name .= "<br />{$title}";
             }
         }
-        $ageInfo = $this->getBirthDeath();
         $ageStr = "{$ageInfo['ageStr']}<br />{$ageInfo['birthStr']}<br />{$ageInfo['deathStr']}";
 
         return [              
@@ -38,6 +37,21 @@ class Figure extends AbstractResource
             'ageStr' => $ageStr,
             'description' => $this->textMore($this->code, $this->description),
             'photoUrl' => $photoUrl,
+            'colspan' => '1',
+            'style' => '',
+        ];
+    }
+
+    protected function _baseData()
+    {
+        $ageInfo = $this->getBirthDeath();
+        return [              
+            'id' => $this->id,
+            'code' => $this->code,
+            'name' => $this->name,
+            'ageInfo' => $ageInfo,
+            'description' => $this->description,
+            'photoUrl' => $this->photoUrl,
             'colspan' => '1',
             'style' => '',
         ];

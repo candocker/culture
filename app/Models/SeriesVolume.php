@@ -13,4 +13,9 @@ class SeriesVolume extends AbstractModel
     {
         return $this->belongsTo(Series::class, 'series_code', 'code');
     }
+
+    public function bookPublishes()
+    {
+        return $this->hasMany(BookPublish::class, 'series_volume_id', 'id');
+    }
 }

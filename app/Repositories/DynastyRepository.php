@@ -45,4 +45,16 @@ class DynastyRepository extends AbstractRepository
             99 => '锁定',
         ];
     }
+
+    public function getDetail($code)
+    {
+        $model = $this->getModelObj();
+        $info = $model->where(['code' => $code])->first();
+        $emperors = $info->emperors;
+        $emperors = $this->getModelObj('emperor')->limit(10)->get();
+        $emperorDatas = $this->getCollectionObj('emperor', ['resource' => $emperors, 'scene' => 'frontDetail', 'repository' => $this->getRepositoryObj('emperor'), 'simpleResult' => false]);
+
+        $resource = $this->getResourceObj(null, ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $this, 'simpleResult' => false]);
+        return ['base' => $resource, 'emperorDatas' => $emperorDatas];
+    }
 }

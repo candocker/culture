@@ -12,6 +12,6 @@ class BookPublish extends AbstractModel
 
     public function book()
     {
-        return $this->hasOne(Book::class, 'code', 'book_code');
+        return $this->belongsTo(Book::class, 'code', 'book_code');
     }
 }

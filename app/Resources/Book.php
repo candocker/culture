@@ -19,6 +19,7 @@ class Book extends AbstractResource
     protected function _frontDetailArray()
     {
         $data = $this->_frontInfoArray();
+        $data['coverUrl'] = $this->wrapPicture($this->coverUrl, 'original');
         $chapters = $this->chapters;
         $cDatas = [];
         foreach ($chapters as $chapter) {
