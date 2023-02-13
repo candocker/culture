@@ -2,12 +2,24 @@
 
 namespace ModuleCulture\Models;
 
+//use Elasticquent\ElasticquentTrait;
+use Laravel\Scout\Searchable;
+
 class Book extends AbstractModel
 {
+    //use ElasticquentTrait;
+    use Searchable;
+
     protected $table = 'book';
     protected $primaryKey = 'code';
     protected $keyType = 'string';
     protected $guarded = ['id'];
+    protected $mappingProperties = [
+       'name' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ]
+    ];
 
     public function chapters()
     {
@@ -102,4 +114,52 @@ class Book extends AbstractModel
         }
         return $results;
     }
+
+    /**
+     * 获取模型的可搜索数据
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $data = [
+            'id' => $this->id,
+            //'name' => $this->name,
+            //'note' => $this->note,
+            //'description' => $this->description,
+        ];
+
+        return $data;
+    }
+
+    /**
+     * 得到该模型索引的名称。
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        //return 'book';
+        return '_doc';//laravel74_culture';
+    }
+
+    /**
+     * 获取模型主键
+     *
+     * @return mixed
+     */
+    /*public function getScoutKey()
+    {
+        return $this->code;
+    }*/
+
+     /**
+     * 获取模型键名
+     *
+     * @return mixed
+     */
+    /*public function getScoutKeyName()
+    {
+        return 'code';
+    }*/
 }
