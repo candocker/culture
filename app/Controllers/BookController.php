@@ -13,7 +13,8 @@ class BookController extends AbstractController
         $repository = $this->getRepositoryObj();
         $positionBooks = $repository->getPositionBooks();
         $navBooks = $repository->getNavBooks();
-        return $this->success(['positionBooks' => $positionBooks, 'navBooks' => $navBooks]);
+        $bannerInfos = $this->getServiceObj('infocms-fetchData')->getBannerInfos('book', 'home');
+        return $this->success(['positionBooks' => $positionBooks, 'navBooks' => $navBooks, 'bannerInfos' => $bannerInfos]);
 	}
 
 	public function frontList()

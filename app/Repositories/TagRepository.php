@@ -39,12 +39,4 @@ class TagRepository extends AbstractRepository
         ];
     }
 
-	public function _statusKeyDatas()
-	{
-		return [
-			'nav' => '导航标签',
-			'hot' => '热门标签',
-			'comment' => '推荐标签',
-		];
-	}
 }

@@ -31,19 +31,6 @@ class AbstractModel extends AbstractModelBase
 		return $content;
 	}
 
-    public function formatTagDatas($tagInfos)
-    {
-        $datas = [];
-        foreach ($tagInfos as $tagInfo) {
-            $tag = $tagInfo->tag;
-            if (empty($tag)) {
-                continue;
-            }
-            $datas[$tag['code']] = $tag['name'];
-        }
-        return $datas;
-    }
-
     protected function getAppcode()
     {
         return 'culture';

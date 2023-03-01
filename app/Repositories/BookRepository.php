@@ -66,7 +66,7 @@ class BookRepository extends AbstractRepository
 
 	public function getNavBooks($number = 4)
 	{
-        $model = $this->getModelObj('tag');
+        $model = $this->getModelObj('passport-tag');
         $navTags = $model->where(['status' => 'nav'])->orderBy('orderlist', 'desc')->get();
 		$datas = [];
 		foreach ($navTags as $tag) {
@@ -97,9 +97,14 @@ class BookRepository extends AbstractRepository
 	public function getPointTagBooks($tagCode, $number)
 	{
         $model = $this->getModelObj();
-        $infos = $model->whereHas('tagInfos', function ($query) use ($tagCode) {
-            $query->where('tag_code', $tagCode);
-        })->limit($number)->get();
+        $tagInfos = $this->getModelObj('passport-tagInfo')->where(['tag_code' => $tagCode, 'app' => 'culture', 'info_table' => 'book'])->limit($number)->get();
+        $infos = [];
+        foreach ($tagInfos as $tagInfo) {
+            $infos[] = $tagInfo->getTargetInfo();
+        }
+        /*$infos = $model->whereHas('tagInfos', function ($query) use ($tagCode) {
+            $query->where(['tag_code' => $tagCode, 'app' => 'culture', 'info_table' => 'book']);
+        })->limit($number)->get();*/
         $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $this]);
         return $infos;
 	}

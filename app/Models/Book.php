@@ -4,6 +4,7 @@ namespace ModuleCulture\Models;
 
 //use Elasticquent\ElasticquentTrait;
 use Laravel\Scout\Searchable;
+use ModulePassport\Models\TagInfo;
 
 class Book extends AbstractModel
 {
@@ -28,7 +29,7 @@ class Book extends AbstractModel
 
     public function tagInfos()
     {
-        return $this->hasMany(TagInfo::class, 'info_id', 'id')->where('info_type', 'book');
+        return $this->hasMany(TagInfo::class, 'info_id', 'id')->where('info_table', 'book');
     }
 
     public function authorData()
