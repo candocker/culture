@@ -67,7 +67,7 @@ class BookRepository extends AbstractRepository
 	public function getNavBooks($number = 4)
 	{
         $model = $this->getModelObj('passport-tag');
-        $navTags = $model->where(['status' => 'nav'])->orderBy('orderlist', 'desc')->get();
+        $navTags = $model->where(['sort' => 'nav'])->orderBy('orderlist', 'desc')->get();
 		$datas = [];
 		foreach ($navTags as $tag) {
             $code = $tag['code'];
