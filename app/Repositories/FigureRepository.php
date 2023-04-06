@@ -77,7 +77,7 @@ class FigureRepository extends AbstractRepository
         $model = $this->getModelObj('figure');
         $info = $model->where(['code' => $code])->first();
 
-        $resource = $this->getResourceObj(null, ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $this, 'simpleResult' => false]);
+        $resource = $this->getResourceObj($info, 'frontDetail');
         return $resource;
     }
 }

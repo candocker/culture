@@ -6,6 +6,11 @@ use Framework\Baseapp\Resources\AbstractResource as AbstractResourceBase;
 
 class AbstractResource extends AbstractResourceBase
 {
+    protected function getAppcode()
+    {
+        return 'culture';
+    }
+
     protected function textMore($key, $text, $length = 80)
     {
         $len = strlen($text);

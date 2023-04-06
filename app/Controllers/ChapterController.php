@@ -10,9 +10,9 @@ class ChapterController extends AbstractController
     {
         $repository = $this->getRepositoryObj();
         $info = $this->getPointChapter($repository);
-        $resource = $this->getResourceObj(null, ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $repository, 'simpleResult' => false]);
+        $resource = $this->getResourceObj($info, 'frontDetail');
         $book = $info->book;
-        $bookData = $this->getResourceObj('book', ['resource' => $book, 'scene' => 'frontDetail', 'repository' => $repository, 'simpleResult' => false]);
+        $bookData = $this->getResourceObj($book, 'frontDetail', 'book');
         return $this->success(['chapter' => $resource, 'book' => $bookData]);
     }
 

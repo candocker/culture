@@ -11,7 +11,7 @@ class RecordRepository extends AbstractRepository
         $datas = [];
         $userData = $this->resource->getCurrentUser();
         $infos = $this->model->where(['book_code' => $book->code, 'user_id' => $userData['id']])->get();
-        return $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontList', 'repository' => $this]);
+        return $this->getCollectionObj($infos, 'frontList');
     }
 
     protected function _sceneFields()

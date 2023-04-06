@@ -11,7 +11,7 @@ class GraphicService extends AbstractService
         $model = $this->getModelObj('series');
         $infos = $model->orderBy('orderlist', 'desc')->get();
         $repository = $this->getRepositoryObj('series');
-        $datas = $this->getCollectionObj('series', ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+        $datas = $this->getCollectionObj($infos, 'frontInfo', 'series');
 
         $headers = [
             'series' => ['name' => '丛书名称', 'brief' => '丛书简介', 'publish_at' => '出版时间', 'press' => '出版社', 'pointOperation' => '操作'],
@@ -38,7 +38,7 @@ class GraphicService extends AbstractService
         $model = $this->getModelObj('seriesVolume');
         $infos = $model->where(['series_code' => $code])->get();
         $repository = $this->getRepositoryObj('seriesVolume');
-        $datas = $this->getCollectionObj('seriesVolume', ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+        $datas = $this->getCollectionObj($infos, 'frontInfo', 'seriesVolume');
 
         $seriesData = $this->getModelObj('series')->where(['code' => $code])->first();
 
@@ -66,7 +66,7 @@ class GraphicService extends AbstractService
         $model = $this->getModelObj('bookPublish');
         $infos = $model->where(['series_volume_id' => $volumeId])->get();
         $repository = $this->getRepositoryObj('bookPublish');
-        $datas = $this->getCollectionObj('bookPublish', ['resource' => $infos, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => true]);
+        $datas = $this->getCollectionObj($infos, 'frontBase', 'bookPublish');
 
         $volumeData = $this->getModelObj('seriesVolume')->where(['id' => $volumeId])->first();
         $seriesData = $volumeData->series;
@@ -102,7 +102,7 @@ class GraphicService extends AbstractService
         $repository = $this->getRepositoryObj('culture-figure');
         $datas = [];
         foreach ($figureResumes as $info) {
-            $figureData = $this->getResourceObj('culture-figure', ['resource' => $info->figure, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => false])->toArray();
+            $figureData = $this->getResourceObj($info->figure, 'frontBase', 'figure');
             $startEndInfo = $info->getStartEnd();
             $datas[] = array_merge($figureData, [
                 'startEnd' => "{$startEndInfo['timeSpan']}<br />{$startEndInfo['startStr']}<br />{$startEndInfo['endStr']}",
@@ -137,7 +137,7 @@ class GraphicService extends AbstractService
         $repository = $this->getRepositoryObj('culture-dynasty');
         $datas = [];
         foreach ($figures as $info) {
-            $datas[] = $this->getResourceObj('culture-dynasty', ['resource' => $info, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => false])->toArray();
+            $datas[] = $this->getResourceObj($info, 'frontBase', 'dynasty');
         }
         return [
             [
@@ -162,7 +162,7 @@ class GraphicService extends AbstractService
         $repository = $this->getRepositoryObj('culture-figure');
         $datas = [];
         foreach ($figures as $info) {
-            $datas[] = $this->getResourceObj('culture-figure', ['resource' => $info, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => false])->toArray();
+            $datas[] = $this->getResourceObj($info, 'frontBase', 'figure');
         }
         return [
             [
@@ -187,7 +187,7 @@ class GraphicService extends AbstractService
         $repository = $this->getRepositoryObj('culture-book');
         $datas = [];
         foreach ($books as $info) {
-            $datas[] = $this->getResourceObj('culture-book', ['resource' => $info, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => false])->toArray();
+            $datas[] = $this->getResourceObj($info, 'frontBase', 'book');
         }
         //print_r($datas);exit();
         return [
@@ -225,7 +225,7 @@ class GraphicService extends AbstractService
         $sortName = $sorts[$extcode];
         $datas = [];
         foreach ($infos as $info) {
-            $resource = $this->getResourceObj('culture-scholarism', ['resource' => $info, 'scene' => 'frontBase', 'repository' => $repository, 'simpleResult' => false]);
+            $resource = $this->getResourceObj($info, 'frontBase', 'scholarism');
             $rData = $resource->toArray();
             $rData['colspan'] = 1;
             $datas[$info['volume']][] = $rData;
@@ -253,8 +253,8 @@ class GraphicService extends AbstractService
             $book = $info->book;
             $figure = $info->figure;
 
-            $bookData = $this->getResourceObj('culture-book', ['resource' => $info->book, 'scene' => 'frontBase', 'repository' => $repositoryBook, 'simpleResult' => false])->toArray();
-            //$figureData = $this->getResourceObj('culture-figure', ['resource' => $info->figure, 'scene' => 'frontBase', 'repository' => $repositoryFigure, 'simpleResult' => false])->toArray();
+            $bookData = $this->getResourceObj($info->book, 'frontBase', 'book');
+            //$figureData = $this->getResourceObj($info->figure, 'frontBase', 'figure');
             $datas[] = $bookData;
         }
         //print_r($datas);exit();

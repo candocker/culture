@@ -8,8 +8,10 @@ class Book extends AbstractResource
     {
         $data = [
             'code' => $this->code,
-            'name' => $this->wrapWiki($this->name),
-            'coverUrl' => $this->wrapPicture($this->coverUrl, 'html'),
+            'name' => $this->name,
+            'nameWiki' => $this->wrapWiki($this->name),
+            'coverUrl' => $this->coverUrl,
+            'coverUrlElem' => $this->wrapPicture($this->coverUrl, 'html'),
             'description' => $this->textMore($this->code, $this->description),
             'colspan' => 1,
         ];

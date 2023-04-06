@@ -27,7 +27,7 @@ class ShelfRepository extends AbstractRepository
         $shelfBookRepository = $this->getRepositoryObj('shelfBook');
         foreach ($infos as $name => $info) {
             if ($name == 'defaultshelf') {
-                $baseBooks = $this->getCollectionObj('shelfBook', ['resource' => $info->books, 'scene' => 'shelfList', 'repository' => $shelfBookRepository]);
+                $baseBooks = $this->getCollectionObj($info->books, 'shelfList', 'shelfBook');
                 $baseBooks = $baseBooks->toArray();
                 continue;
             }
@@ -35,7 +35,7 @@ class ShelfRepository extends AbstractRepository
                 'shelf_id' => $info['id'],
                 'type' => 2,
                 'title' => $name,
-                'itemList' => $this->getCollectionObj('shelfBook', ['resource' => $info->books, 'scene' => 'shelfList', 'repository' => $shelfBookRepository])
+                'itemList' => $this->getCollectionObj($info->books, 'shelfList', 'shelfBook'),
             ];
         }
         /*foreach ($baseBooks as $baseBook) {
@@ -44,7 +44,7 @@ class ShelfRepository extends AbstractRepository
             $datas[] = $bData;
         }*/
         return array_merge($datas, $baseBooks);
-        $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'shelfList', 'repository' => $this]);
+        $infos = $this->getCollectionObj($infos, 'shelfList');
     }
 
     public function createData($name, $userId, $throw = true)

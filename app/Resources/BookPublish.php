@@ -8,31 +8,23 @@ class BookPublish extends AbstractResource
 {
     protected function _frontBaseArray()
     {
-        $book = $this->book;
+        $book = $this->resource->book;
         //$figureDatas = $book->figureDatas;
 
         $bookRepository = $this->getRepositoryObj('book');
-        $bookResource = ['code' => 'aaa', 'description' => ''];
-        if (!empty($this->book)) {
-            $bookResource = $this->getResourceObj('book', ['resource' => $this->book, 'scene' => 'frontBase', 'repository' => $bookRepository, 'simpleResult' => false])->toArray();
+        $bookResource = ['code' => '', 'baiduUrl' => '', 'description' => '', 'coverUrl' => ''];
+        if (!empty($book)) {
+            $bookResource = $this->getResourceObj($book, 'frontBase', 'book');
         }
         $result = [
             'book_code' => $this->book_code,
             'name' => $this->name,
-            //'baidu_url' => 
+            'author' => $this->author,
+            'translator' => $this->translator,
+            'nationality' => $this->nationality,
         ];
-        return array_merge($result, $bookResource);
-        /*$chapters = $this->chapters;
-        $cDatas = [];
-        foreach ($chapters as $chapter) {
-            $cDatas[] = [
-                'id' => $chapter['id'],
-                'name' => $chapter['name'],
-                'serial' => $chapter['serial'],
-            ];
-        }
-        $data['chapters'] = $cDatas;
-        $data['chapterNum'] = count($cDatas);*/
-        return $data;
+        $result = array_merge($result, $bookResource->toArray());
+        $result['jsonStr'] = json_encode($result);
+        return $result;
     }
 }

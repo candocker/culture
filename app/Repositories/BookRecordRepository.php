@@ -9,7 +9,7 @@ class BookRecordRepository extends AbstractRepository
     {
         $model = $this->model;
         $infos = $model->where(['user_id' => $userData['id']])->get();
-        return $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontList', 'repository' => $this]);
+        return $this->getCollectionObj($infos, 'frontList');
     }
 
     protected function _sceneFields()

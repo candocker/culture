@@ -22,7 +22,7 @@ class Series extends AbstractResource
     protected function _frontInfoArray()
     {
         $volumes = $this->volumes;
-        $vDatas = $this->getCollectionObj('seriesVolume', ['resource' => $volumes, 'scene' => 'frontInfo', 'repository' => $this->getRepositoryObj('seriesVolume'), 'simpleResult' => true]);
+        $vDatas = $this->getCollectionObj($volumes, 'frontInfo', 'seriesVolume');
         $data = $this->_frontBaseArray();
         $data['volumes'] = $vDatas;
         return $data;

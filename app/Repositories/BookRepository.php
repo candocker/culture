@@ -87,7 +87,7 @@ class BookRepository extends AbstractRepository
             $number = $position == 'favor' ? 3 : $number;
 			$data['name'] = $pName;
 			$bDatas = $model->where(['position' => $position])->orderBy('orderlist', 'desc')->limit($number)->get();
-            $bDatas = $this->getCollectionObj(null, ['resource' => $bDatas, 'scene' => 'frontInfo', 'repository' => $this]);
+            $bDatas = $this->getCollectionObj($bDatas, 'frontInfo');
 			$data['books'] = $bDatas;
 			$datas[$position] = $data;
 		}
@@ -105,7 +105,7 @@ class BookRepository extends AbstractRepository
         /*$infos = $model->whereHas('tagInfos', function ($query) use ($tagCode) {
             $query->where(['tag_code' => $tagCode, 'app' => 'culture', 'info_table' => 'book']);
         })->limit($number)->get();*/
-        $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $this]);
+        $infos = $this->getCollectionObj($infos, 'frontInfo');
         return $infos;
 	}
 
@@ -169,7 +169,7 @@ class BookRepository extends AbstractRepository
         $model = $this->getModelObj('book');
         $info = $model->where(['code' => $code])->first();
 
-        $resource = $this->getResourceObj(null, ['resource' => $info, 'scene' => 'frontDetail', 'repository' => $this, 'simpleResult' => false]);
+        $resource = $this->getResourceObj($info, 'frontDetail');
         return $resource;
     }
 }

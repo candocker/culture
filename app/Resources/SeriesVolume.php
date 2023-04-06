@@ -15,6 +15,7 @@ class SeriesVolume extends AbstractResource
             'id' => $this->id,
             'name' => $this->name,
             'press' => $press,
+            'brief' => $this->brief,
             'series_code' => $this->series_code,
             'publish_at' => empty($this->publish_at) ? $series->publish_at : $this->publish_at,
             'description' => $this->description,
@@ -27,7 +28,7 @@ class SeriesVolume extends AbstractResource
     protected function _frontInfoArray()
     {
         $bookPublishes = $this->bookPublishes;
-        $bDatas = $this->getCollectionObj('bookPublish', ['resource' => $bookPublishes, 'scene' => 'frontBase', 'repository' => $this->getRepositoryObj('bookPublish'), 'simpleResult' => true]);
+        $bDatas = $this->getCollectionObj($bookPublishes, 'frontBase', 'bookPublish');
         $data = $this->_frontBaseArray();
         $data['books'] = $bDatas;
         return $data;

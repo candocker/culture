@@ -10,7 +10,7 @@ class BookSortController extends AbstractController
 	{
         $repository = $this->getRepositoryObj();
         $categories = $repository->query()->orderBy('orderlist', 'desc')->get();
-        $infos = $this->getCollectionObj(null, ['resource' => $categories, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+        $infos = $this->getCollectionObj($categories, 'frontInfo');
         return $this->success($infos);
 	}
 

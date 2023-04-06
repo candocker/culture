@@ -33,7 +33,7 @@ class BookController extends AbstractController
             $query = $query->where('name', 'like', "%{$keyword}%");
         }
         $infos = $query->get();
-        $infos = $this->getCollectionObj(null, ['resource' => $infos, 'scene' => 'frontInfo', 'repository' => $repository, 'simpleResult' => true]);
+        $infos = $this->getCollectionObj($infos, 'frontInfo');
         return $this->success(['books' => $infos, 'total' => count($infos)]);
 	}
 
