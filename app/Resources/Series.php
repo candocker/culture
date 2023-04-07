@@ -14,6 +14,7 @@ class Series extends AbstractResource
             'name' => $this->name,
             'brief' => $this->brief,
             'publish_at' => $this->publish_at,
+            'book_num' => $this->book_num,
             'description' => $this->description,
             'press' => $this->getRepository()->getKeyValues('press', $this->press),
         ];

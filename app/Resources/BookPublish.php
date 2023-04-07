@@ -15,6 +15,9 @@ class BookPublish extends AbstractResource
         $bookResource = ['code' => '', 'baiduUrl' => '', 'description' => '', 'coverUrl' => ''];
         if (!empty($book)) {
             $bookResource = $this->getResourceObj($book, 'frontBase', 'book');
+            $bookResource = $bookResource->toArray();
+        } else {
+            \Log::debug('no-book-' . $this->book_code . '=' . $this->name);
         }
         $result = [
             'book_code' => $this->book_code,
@@ -23,7 +26,7 @@ class BookPublish extends AbstractResource
             'translator' => $this->translator,
             'nationality' => $this->nationality,
         ];
-        $result = array_merge($result, $bookResource->toArray());
+        $result = array_merge($result, $bookResource);
         $result['jsonStr'] = json_encode($result);
         return $result;
     }
