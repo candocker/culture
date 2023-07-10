@@ -6,13 +6,16 @@ class Book extends AbstractResource
 {
     protected function _frontBaseArray()
     {
+        $author = $this->authorData();
         $data = [
             'code' => $this->code,
             'name' => $this->name,
             'nameWiki' => $this->wrapWiki($this->name),
+            'author' => $author ? $author['name'] : '',
+            'authorWiki' => $author ? $author->wrapWiki() : '',
             'coverUrl' => $this->coverUrl,
             'coverUrlElem' => $this->wrapPicture($this->coverUrl, 'html'),
-            'description' => $this->textMore($this->code, $this->description),
+            'description' => $this->description,//$this->textMore($this->code, $this->description),
             'colspan' => 1,
         ];
         return $data;

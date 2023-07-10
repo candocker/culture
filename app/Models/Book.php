@@ -3,13 +3,13 @@
 namespace ModuleCulture\Models;
 
 //use Elasticquent\ElasticquentTrait;
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
 use ModulePassport\Models\TagInfo;
 
 class Book extends AbstractModel
 {
     //use ElasticquentTrait;
-    use Searchable;
+    //use Searchable;
 
     protected $table = 'book';
     protected $primaryKey = 'code';

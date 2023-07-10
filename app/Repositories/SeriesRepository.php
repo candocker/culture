@@ -48,8 +48,8 @@ class SeriesRepository extends AbstractRepository
 
     public function getSeriesDatas($pointCodes)
     {
-        $pointSortStr = implode(',', $pointCodes);
-        $infos = $this->whereIn('code', $pointCodes)->orderByRaw(\DB::raw("FIND_IN_SET(code, '{$pointSortStr}') asc"))->get();
+        $pointSortStr = implode(",", $pointCodes);
+        $infos = $this->whereIn('code', $pointCodes)->orderByRaw("FIND_IN_SET(code, '{$pointSortStr}') asc")->get();
         $datas = $this->getCollectionObj($infos, 'frontInfo');
         return $datas;
     }

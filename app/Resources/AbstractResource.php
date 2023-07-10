@@ -40,12 +40,4 @@ class AbstractResource extends AbstractResourceBase
         $url = $url . $suffix;
         return $return == 'html' ? "<img src='{$url}' />" : $url;
     }
-
-    protected function wrapWiki($name = null)
-    {
-        $name = is_null($name) ? $this->name : $name;
-        $name = $this->baidu_url ? "<a href='{$this->baidu_url}' target='_blank'>{$name}</a>" : $name;
-        $name = $this->wiki_url ? "{$name} <a href='{$this->wiki_url}' target='_blank'>WIKI</a>" : $name;
-        return $name;
-    }
 }
