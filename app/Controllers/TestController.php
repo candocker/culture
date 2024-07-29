@@ -24,6 +24,10 @@ class TestController extends AbstractController
         exit();
     }
 
+    public function _testDealData()
+    {
+    }
+
     public function _testAnnotationMaterial()
     {
         $bookCode = 'lunyu';
@@ -65,42 +69,6 @@ class TestController extends AbstractController
         exit();
     }
 
-    public function _testBookContent()
-    {
-        $rs = file('/data/database/books/zhaopuchu/fjwd/9.txt');
-        $lines = [];
-        foreach ($rs as $k => $r) {
-            if ($k === 0) {
-                continue;
-            }
-            $r = trim($r);
-            if (empty($r)) {
-                continue;
-            }
-            if (strpos($r, '问：') !== false || strpos($r, '答：') !== false) {
-                $lines[] = $r;
-            } else {
-                $index = count($lines);
-                $lines[$index - 1] .= $r;
-            }
-        }
-        //print_r($rs);
-        //print_r($lines);exit();
-        $str = "<?php\nreturn [\n'chapters' => [\n";
-        foreach ($lines as $index => $line) {
-            $line = trim($line);
-            if ($index % 2 == 0) {
-                $str .= "[\n    'content' => [\n        '{$line}',\n    ],\n";
-            } else {
-                $str .= "    'vernacular' => [\n        '{$line}',\n    ],\n],\n";
-            }
-        }
-        $str .= "],\n];";
-        //file_put_contents('/data/database/material/references/fojiaowenda/9.php', $str);
-        echo $str;
-        exit();
-    }
-
     public function _testSearch()
     {
         $info = $this->getModelObj('book')->where('id', 13)->first();
@@ -116,52 +84,6 @@ class TestController extends AbstractController
     public function _test()
     {
         return true;
-    }
-
-    public function _testSourceFile()
-    {
-        $infos = $this->getModelObj('infocms-materialSource')->get();
-        $basePath = '/data/database/material/source/';
-        $this->checkSourceFile($basePath);exit();
-        //$basePath = '/data/database/material/source/guji/';
-        $files = CommonTool::getPathFiles($basePath);
-        foreach ($files as $file) {
-            $code = str_replace('.php', '', $file);
-            if (in_array($code, ['ancient_cn', 'academic1'])) {
-                continue;
-            }
-            $path = str_replace('/data/database/material', '', $basePath) . $code;
-            $exist = $this->getModelObj('infocms-materialSource')->where(['book' => $code])->first();
-            if (empty($exist)) {
-                echo $path . '<br />';
-            } else {
-                if (empty($exist->file_path)) {
-                    $exist->file_path = $path;
-                    $exist->save();
-                }
-            }
-        }
-        print_r($files);
-        exit();
-    }
-
-    public function checkSourceFile($path)
-    {
-        $files = CommonTool::getPathFiles($path);
-        foreach ($files as $file) {
-            $fullPath = $path . $file;
-            if (is_dir($fullPath)) {
-                $this->checkSourceFile($fullPath . '/');
-            } else {
-                $file = str_replace(['/data/database/material', '.php'], '', $fullPath);
-                $exist = $this->getModelObj('infocms-materialSource')->where(['file_path' => $file])->first();
-                if (empty($exist)) {
-                    var_dump($file);
-                }
-            }
-        }
-        //print_r($files);
-        //exit();
     }
 
     protected function gitDeal()

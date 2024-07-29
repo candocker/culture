@@ -6,19 +6,19 @@ use Overtrue\Pinyin\Pinyin;
 
 class BookController extends AbstractController
 {
-	use DealBookTrait;
+    use DealBookTrait;
 
-	public function home()
-	{
+    public function home()
+    {
         $repository = $this->getRepositoryObj();
         $positionBooks = $repository->getPositionBooks();
         $navBooks = $repository->getNavBooks();
         $bannerInfos = $this->getServiceObj('infocms-fetchData')->getBannerInfos('book', 'home');
         return $this->success(['positionBooks' => $positionBooks, 'navBooks' => $navBooks, 'bannerInfos' => $bannerInfos]);
-	}
+    }
 
-	public function frontList()
-	{
+    public function frontList()
+    {
         $repository = $this->getRepositoryObj();
         $model = $this->getModelObj();
         $request = $this->getPointRequest();
@@ -35,7 +35,7 @@ class BookController extends AbstractController
         $infos = $query->get();
         $infos = $this->getCollectionObj($infos, 'frontInfo');
         return $this->success(['books' => $infos, 'total' => count($infos)]);
-	}
+    }
 
     public function epub()
     {
