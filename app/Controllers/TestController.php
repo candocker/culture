@@ -24,86 +24,6 @@ class TestController extends AbstractController
         exit();
     }
 
-    public function _testUpdateMaterial()
-    {
-        /*$figures = $this->getModelObj('culture-figure')->where(['id' => '754'])->get();
-        foreach ($figures as $figure) {
-            $this->updateSource($figure);
-        }*/
-        //$where = ['series_code' => 'philosophy'];
-        //$where = ['series_code' => 'politics'];
-        //$where = ['series_code' => 'history'];
-        //$where = ['series_code' => 'economics'];
-        //$where = ['series_code' => 'language'];
-        $where = ['series_code' => 'otheracademic'];
-        //$where = ['series_code' => 'classical'];
-        $datas = $this->getModelObj('culture-bookPublish')->where($where)->orderBy('serial', 'asc')->get();
-        $i = 0;
-        foreach ($datas as $data) {
-            $book = $data->book;
-            if (!empty($book->baidu_url)) {
-                //print_r($book->toArray());
-                $this->updateSource($book, ['category_code' => 'hanyixueshu']);
-            } else {
-                if (empty($book)) {
-                    print_r($data->toArray());
-                    continue;
-                }
-                echo 'noooooooooo-baiduurl =' . $book['code'] . '=' . $book['name'] . "\n";
-                //print_r($book->toArray());
-            }
-            //continue;
-            $bFigures = $book->authorInfos();
-            foreach ($bFigures as $bFigure) {
-                $figure = $bFigure->figure;
-                if (empty($figure) || empty($figure['baidu_url'])) {
-                    echo 'noooooooooooo-figure' . "\n";
-                    //print_r($book->toArray());
-                    continue;
-                }
-                //print_r($figure->toArray());
-                $this->updateSource($figure);
-            }
-        }
-        echo $i;
-        exit();
-    }
-
-    protected function updateSource($info, $data = [])
-    {
-        $className = get_class($info);
-        $nData = array_merge([
-            'name' => $info['name'],
-            'url' => $info['baidu_url'],
-            'category_code' => 'author',
-            'domain' => 'baike.baidu.com',
-            'description' => $info['description']
-        ], $data);
-        if ($className == 'ModuleCulture\Models\Figure') {
-            $nData['figure'] = $info['code'];
-            $nData['file_path'] = '/source/figures/academic4/' . $info['code'];
-            $exist = $this->getModelObj('infocms-materialSource')->where(['figure' => $info['code']])->first();
-        }
-        if ($className == 'ModuleCulture\Models\Book') {
-            $nData['book'] = $info['code'];
-            $nData['file_path'] = '/source/books/academic4/' . $info['code'];
-            $exist = $this->getModelObj('infocms-materialSource')->where(['book' => $info['code']])->first();
-        }
-        if ($exist) {
-            //print_r($info->toArray());
-            return true;
-        }
-
-        $file = '/data/database/material' . $nData['file_path'] . '.php';
-        if (!file_exists($file)) {
-            echo $file . "<br />\n";
-            file_put_contents($file, "<?php\nreturn [\n'brief' => [\n],\n];");
-        }
-        print_r($nData); 
-        $this->getModelObj('infocms-materialSource')->create($nData);
-        return true;
-    }
-
     public function _testAnnotationMaterial()
     {
         $bookCode = 'lunyu';
@@ -242,5 +162,18 @@ class TestController extends AbstractController
         }
         //print_r($files);
         //exit();
+    }
+
+    protected function gitDeal()
+    {
+        $infos = \DB::select("SELECT * FROM `work_bench`.`wp_github`");
+        //print_r($infos);
+        $strs = [];
+        foreach ($infos as $info) {
+            $str = '<li class="null"><strong><span style="color: #ba372a;"><a href="' . $info->url . '" target="_blank" rel="noopener">' . $info->name . '</a></span> ( <em>' . $info->code . '</em> )：</strong>' . $info->description . '</li>';
+            //$str = '<tr style="height: 48px;"><td style="width: 20%; height: 48px;">1</td><td style="width: 20%; height: 48px;">' . $info->code . '</td><td style="width: 20%; height: 48px;"></td><td style="width: 40%; height: 48px;">' . $info->description . '</td></tr>';
+            $strs[$info->sort] = isset($strs[$info->sort]) ? $strs[$info->sort] . $str : $str;
+        }
+        print_r($strs);
     }
 }
