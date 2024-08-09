@@ -10,26 +10,65 @@ class AbstractModel extends AbstractModelBase
 {
     protected $connection = 'culture';
 
-	public function getBookPath($book)
-	{
-		$base = $this->config->get('culture.book_path');
-		$path = "{$base}{$book['path']}/{$book['code']}/";
-		return $path;
-	}
+    public function getBookPath($book)
+    {
+        $base = $this->config->get('culture.book_path');
+        $path = "{$base}{$book['path']}/{$book['code']}/";
+        return $path;
+    }
 
-	public function getChapterFile($chapter, $returnContent = true)
-	{
-		$path = $this->getBookPath($chapter->book);
-		$file = "{$path}{$chapter['code']}.txt";
-		if (!$returnContent) {
-			return $file;
-		}
-		if (!file_exists($file)) {
-			return 'no content';
-		}
-		$content = file_get_contents($file);
-		return $content;
-	}
+    public function getChapterContent($chapter, $returnType = 'array')
+    {
+        $bookPath = $chapter->book->fullPath;
+        $file = "{$bookPath}{$chapter['code']}.php";
+        if ($returnType == 'file') {
+            return $file;
+        }
+        $contents = require($file);
+        if ($returnType == 'string') {
+            $str = '';
+            foreach ($contents['chapters'] as $chapter) {
+                $str .= implode("\r\n", $chapter['content']);
+            }
+            return $str;
+        }
+
+        $results = [];
+        foreach ($contents as $key => $datas) {
+            if (in_array($key, ['title', 'author', 'description'])) {
+                $results[] = $datas;
+            }
+            if ($key == 'chapters') {
+                foreach ($datas as $subData) {
+                    $results[] = $subData['content'][0];
+                    if (isset($subData['vernacular'])) {
+                        $results[] = $subData['vernacular'][0];
+                    }
+                }
+            }
+            if ($key == 'notes') {
+                foreach ($datas as $subData) {
+                    $results[] = $subData;
+                }
+            }
+        }
+        return $results;
+        return $contents;
+    }
+
+    public function getChapterFile($chapter, $returnContent = true)
+    {
+        $path = $this->getBookPath($chapter->book);
+        $file = "{$path}{$chapter['code']}.txt";
+        if (!$returnContent) {
+            return $file;
+        }
+        if (!file_exists($file)) {
+            return 'no content';
+        }
+        $content = file_get_contents($file);
+        return $content;
+    }
 
     protected function getAppcode()
     {

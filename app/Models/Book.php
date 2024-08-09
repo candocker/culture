@@ -22,6 +22,13 @@ class Book extends AbstractModel
         ]
     ];
 
+    public function getFullPathAttribute()
+    {
+        $base = $this->config->get('culture.book_basepath');
+        $path = "{$base}{$this->book_path}/";
+        return $path;
+    }
+
     public function chapters()
     {
         return $this->hasMany(Chapter::class, 'book_code', 'code')->orderBy('serial', 'asc');

@@ -13,6 +13,8 @@ class TestController extends AbstractController
 
     public function test()
     {
+        $this->dealBookpass();
+        exit();
         $request = $this->request;
         $inTest = config('app.inTest');
         if (empty($inTest)) {
@@ -24,8 +26,141 @@ class TestController extends AbstractController
         exit();
     }
 
+    public function _testDealResource()
+    {
+        $f1 = '/data/htmlwww/resource/test.jpg';
+        $f2 = '/data/htmlwww/resource/t.jpg';
+        $f3 = 'https://zsbt-1254153797.cos.ap-shanghai.myqcloud.com/data/upload/beitie/images/page/b4170a692040825baba55f881ebe2e49.jpg';
+        var_dump(hash_file('md5', $f1));
+        var_dump(hash_file('md5', $f2));
+        var_dump(hash_file('md5', $f3));
+        exit();
+
+
+        $basePath = '/data/htmlwww/resource/';
+        $infos = $this->getModelObj('infocms-resourceDetail')->where(['tag' => '书籍'])->orderBy('image_model', 'asc')->limit(1000)->get();
+$series = array(
+'philosophy' => '哲学',
+'history' => '历史·地理',
+'politics' => '政治·法律·社会',
+'economics' => '经济',
+'language' => '语言·文艺理论',
+);
+        $command = '';
+        $sNums = $pathCommands = [];
+        $grade = 1;
+        foreach ($infos as $info) {
+            $code = $info['image_model'];
+            if (in_array($info['extfield1'], ['', 'no', 'nno'])) {
+                continue;
+            }
+            if (!in_array($code, array_keys($series))) {
+                continue;
+            }
+            if (isset($sNums[$code])) {
+                $sNums[$code] += 1;
+            } else {
+                $sNums[$code] = 1;
+            }
+            $pathNum = ceil($sNums[$code] / 50);
+            $newPath = 'bookcover/' . $series[$code] . '/cover' . $pathNum . '/';
+            $mPath = $basePath . $newPath;
+            if (!is_dir($mPath) && !in_array($mPath, $pathCommands)) {
+                //$command .= "mkdir {$newPath};\n";
+            }
+            $pathCommands[] = $mPath;
+            $old = $basePath . $info['extfield1'];
+            if (!file_exists($old)) {
+                continue;
+            }
+            $old = str_replace(['(', ')', ' '], ['\(', '\)', "\ "], $old);
+            $newPath .= $info['filename'];
+            $new = $basePath . $newPath;
+            $new = str_replace(['(', ')', ' '], ['\(', '\)', "\ "], $new);
+            $command .= "mv {$old} {$new};\n";
+        }
+        echo $command;
+        exit();
+        //$infos = $this->getModelObj('infocms-resourceDetail')->where(['tag' => '人物', 'extfield1' => 'nno'])->limit(500)->get();
+        $infos = $this->getModelObj('infocms-resourceDetail')->where(['tag' => '人物', 'extfield1' => 'nno'])->limit(500)->get();
+        echo $infos->count();
+        foreach ($infos as $info) {
+            $path = 'culture/figure2/' . $info['filename'];
+            $file = $basePath . $path;
+            var_dump($file);
+            if (file_exists($file)) {
+                var_dump($file);
+                $info->extfield1 = $path;
+            } else {
+                $info->extfield1 = 'nno';
+            }
+            $info->save();
+        }
+    }
+
     public function _testDealData()
     {
+        $basePath = '/data/htmlwww/resource';
+        /*$driver = \Storage::disk('local');
+        $files = $driver->allFiles('rubbing/weizhi/');
+
+        $fFiles = [];
+        foreach ($files as $file) {
+            list($base, $p1, $p2, $f) = explode('/', $file);
+            $bf = str_replace('.jpg', '', $f);
+            list($olist, $id) = explode('-', $bf);
+            //var_dump($base . '-' . $p1 . '=' . $p2 . '=' . $f . '-' . $olist . '=' . $id);
+            $fFiles[$p2][$olist] = $id;
+        }
+        //print_r($fFiles);
+        foreach ($fFiles as $rcode => $rDatas) {
+            $rInfo = $this->getModelObj('rubbing')->where(['code' => $rcode, 'calligrapher_code' =>'weizhi'])->first();
+            if (empty($rInfo)) {
+                var_dump($rcode);var_dump($rDatas);
+            }
+            $uData = ['rubbing_id' => $rInfo['id']];
+            $this->getModelObj('rubbingDetail')->whereIn('id', $rDatas)->update($uData);
+        }*/
+        /*exit();
+        print_r($files);exit();*/
+
+        //$infos = $this->getModelObj('rubbingDetail')->where(['filepath' => '', 'file_num' => 1])->limit(4000)->get();
+        $infos = $this->getModelObj('rubbingDetail')->where(['filepath' => '', 'file_num' => -1])->limit(4000)->get();
+        foreach ($infos as $info) {
+            $rubbing = $info->rubbingInfo;
+            if (empty($rubbing)) {
+                $info->file_num = -9;
+                $info->save();
+                continue;
+            }
+            $path = "rubbing/{$rubbing['calligrapher_code']}/{$rubbing['code']}/{$info['orderlist']}-{$info['id']}.png";
+            $full = "{$basePath}/{$path}";
+            if (file_exists($full)) {
+                $info->filepath = $path;
+                $info->file_num = 9;
+                $info->save();
+            }
+        }
+        exit();
+        $infos = $this->getModelObj('rubbing')->get();
+        var_dump($infos->count());
+        foreach ($infos as $info) {
+            $path = "rubbing/{$info['calligrapher_code']}/{$info['code']}/thumb-{$info['id']}.jpg";
+            $path1 = "rubbing/{$info['calligrapher_code']}/{$info['code']}/thumb-{$info['id']}.png";
+            $full = "{$basePath}/{$path}";
+            $full1 = "{$basePath}/{$path1}";
+            if (file_exists($full)) {
+                $info->filepath = $path;
+                $info->save();
+                continue;
+            }
+            if (file_exists($full1)) {
+                $info->filepath = $path1;
+                $info->save();
+                continue;
+            }
+        }
+        exit();
     }
 
     public function _testAnnotationMaterial()

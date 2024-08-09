@@ -10,4 +10,8 @@ class RubbingDetail extends AbstractModel
     protected $guarded = ['id'];
     public $timestamps = false;
 
+    public function rubbingInfo()
+    {
+        return $this->belongsTo(Rubbing::class, 'rubbing_id', 'id');
+    }
 }
