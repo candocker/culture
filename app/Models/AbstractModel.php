@@ -17,46 +17,7 @@ class AbstractModel extends AbstractModelBase
         return $path;
     }
 
-    public function getChapterContent($chapter, $returnType = 'array')
-    {
-        $bookPath = $chapter->book->fullPath;
-        $file = "{$bookPath}{$chapter['code']}.php";
-        if ($returnType == 'file') {
-            return $file;
-        }
-        $contents = require($file);
-        if ($returnType == 'string') {
-            $str = '';
-            foreach ($contents['chapters'] as $chapter) {
-                $str .= implode("\r\n", $chapter['content']);
-            }
-            return $str;
-        }
-
-        $results = [];
-        foreach ($contents as $key => $datas) {
-            if (in_array($key, ['title', 'author', 'description'])) {
-                $results[] = $datas;
-            }
-            if ($key == 'chapters') {
-                foreach ($datas as $subData) {
-                    $results[] = $subData['content'][0];
-                    if (isset($subData['vernacular'])) {
-                        $results[] = $subData['vernacular'][0];
-                    }
-                }
-            }
-            if ($key == 'notes') {
-                foreach ($datas as $subData) {
-                    $results[] = $subData;
-                }
-            }
-        }
-        return $results;
-        return $contents;
-    }
-
-    public function getChapterFile($chapter, $returnContent = true)
+    /*public function getChapterFile($chapter, $returnContent = true)
     {
         $path = $this->getBookPath($chapter->book);
         $file = "{$path}{$chapter['code']}.txt";
@@ -68,7 +29,7 @@ class AbstractModel extends AbstractModelBase
         }
         $content = file_get_contents($file);
         return $content;
-    }
+    }*/
 
     protected function getAppcode()
     {

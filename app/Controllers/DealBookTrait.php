@@ -9,6 +9,60 @@ trait DealBookTrait
 {
     public function dealBookpass()
     {
+        $infos = \DB::SELECT('SELECT `id`, `name`, LEFT(`name`, 3) AS `key` FROM `data_culture`.`wp_book` WHERE 1 ');
+        $results = [];
+        foreach ($infos as $info) {
+            $results[$info->key][$info->id] = $info->name;
+        }
+        $tmps = [];
+        foreach ($results as $key => $kData) {
+            if (count($kData) > 1) {
+                var_dump($key);
+                foreach ($kData as $id => & $name) {
+                    $info = $this->getModelObj('book')->where(['id' => $id])->first();
+                    $author = $info->formatAuthorData();
+                    $tmps[$author][] = $name;
+                    $name .= '==' . $author;
+                }
+                print_r($kData);
+            }
+        }
+        foreach ($tmps as $author => $aTmp) {
+            if (count($aTmp) > 1) {
+                var_dump($author);
+                print_r($aTmp);
+            }
+        }
+        //print_r($tmps);
+        exit();
+        print_R($results);exit();
+
+        print_r($infos);
+        exit();
+        $book = $this->getModelObj('book')->where('code', 'guwenguanzhi')->first();
+        $chapters = $book->chapters;
+        $a = $b = [];
+        foreach ($chapters as $chapter) {
+            $n = $chapter['name'];
+            if (strpos($n, ' ')) {
+                $tmp = explode(' ', $n);
+                $n = array_pop($tmp);
+            }
+            $a[$n] = $chapter['name'];
+        }
+        $gwgz = require('/data/database/material/booklist/guwenguanzhi_catalogue.php');
+        foreach ($gwgz as $gw) {
+            $b[] = $gw['name'];
+        }
+        foreach ($a as $key => $suba) {
+            if (!in_array($key, $b)) {
+                var_dump($suba);
+            }
+        }
+        //print_r($a);
+        //print_r($b);
+        exit();
+
         /*$driver = \Storage::disk('local');
         $datas = $driver->allFiles('bookold');
         $tmps = [];
@@ -18,6 +72,8 @@ trait DealBookTrait
         $basePath = '/data/htmlwww/resource/books/';
 
         $infos = $this->getModelObj('book')->where('type', 'epub')->limit(500)->get();
+        foreach ($infos as $info) {
+        }
         echo $command;
     }
 
