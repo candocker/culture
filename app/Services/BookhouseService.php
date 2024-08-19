@@ -78,7 +78,7 @@ class BookhouseService extends AbstractService
         $contents = $this->getChapterContents($chapterInfo);
         //print_r($contents);exit();
         if ($returnType == 'string') {
-            $contents = implode('<p><br /></p>', $contents);
+            $contents = implode('<p style="line-height:10px"><br /></p>', $contents);
         }
         $datas['contents'] = $contents;
         $datas['relateChapters'] = $this->getRelateChapters($chapterInfo);
@@ -143,7 +143,7 @@ class BookhouseService extends AbstractService
         if ($elem == 'notes') {
             $tmpResult = [];
             foreach ($values as $value) {
-                $tmpResult[] = '<span class="commentinner" style="display: ; color:#3949ab; font-weight:normal; text-decoration:underline; font-style:oblique;">' . $value . '</span>';
+                $tmpResult[] = '<span class="commentinner" style="display: ; color:#3949ab; font-weight:normal; text-decoration:underline; font-style:oblique; font-size:14px;">' . $value . '</span>';
             }
             return $tmpResult;
         }

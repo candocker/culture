@@ -9,6 +9,11 @@ trait DealBookTrait
 {
     public function dealBookpass()
     {
+        $this->myLoan();
+        exit();
+        //$每月还款金额（简称每月本息）= 贷款本金 × 月利率 × [(1+月利率)^还款月数 ÷ [(1+月利率)^还款月数 - 1]。
+        $money = $principal * $monthRate * ((1 + $monthRate) ^ $allMonthes / (1 + $monthRate) ^ $allMonthes) - 1;
+        var_dump($money);exit();
         $infos = \DB::SELECT('SELECT `id`, `name`, LEFT(`name`, 3) AS `key` FROM `data_culture`.`wp_book` WHERE 1 ');
         $results = [];
         foreach ($infos as $info) {
