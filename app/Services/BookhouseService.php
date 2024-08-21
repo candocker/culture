@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 class BookhouseService extends AbstractService
 {
     use BookhouseSeriesTrait;
+    use BookhouseLoanTrait;
 
     public function _getSortBooks($force = false)
     {

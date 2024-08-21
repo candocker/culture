@@ -1,17 +1,18 @@
 <?php
 
-namespace ModuleCulture\Controllers;
+namespace ModuleCulture\Services;
 
-use Symfony\Component\DomCrawler\Crawler;
-use Overtrue\Pinyin\Pinyin;
+use Swoolecan\Foundation\Helpers\DatetimeTool;
 
-trait DealHouseLoanTrait
+trait BookhouseLoanTrait
 {
     public function myLoan()
     {
+        $monthObj = DatetimeTool::getCarbonObj('2019-05');
+        $currentMonthObj = DatetimeTool::getCarbonObj();
+
         $firstInterest = '281.55';
         $loanAmount = 1970000;
-        //$interestRate = 5.145;
         $loanPeriod = 312;
         $loans = [
             ['interestRate' => 5.145, 'loanNum' => 20, 'loanAmount' => '1907133.24'],
@@ -22,27 +23,64 @@ trait DealHouseLoanTrait
             ['interestRate' => 4.2, 'loanNum' => 12, 'loanAmount' => '1721679.55'],
             ['interestRate' => 3.85, 'loanNum' => 244],
         ];
-        $result = [];
+        $totalGahterData = [];
+        $results = [];
         foreach ($loans as $loan) {
             $currentLoanNum = $loan['loanNum'];
-            $r = $this->calculateEqualInstallmentPaymentSelf($loanAmount, $loanPeriod, $loan['interestRate'], $currentLoanNum);
+            $result = $this->calculateEqualInstallmentPaymentSelf($loanAmount, $loanPeriod, $loan['interestRate'], $currentLoanNum);
             $loanPeriod -= $currentLoanNum;
-            $last = $r[$currentLoanNum];
-            //$loanAmount = $last['remainingAmount'];
+            $last = $result[$currentLoanNum];
             $loanAmount = $loan['loanAmount'] ?? $last['remainingAmount'];
-            //var_dump($loanAmount);
-            print_r($r);
-            print_r($last);
 
-            $result = array_merge($result, $r);
+            $fResult = $this->formatResult($result, $monthObj, $currentMonthObj, $totalGatherData);
+            $fResult['base'] = $loan;
+            $results[] = $fResult;
         }
-        return $result;
-        print_r($return);
+        return ['results' => $results, 'totalGatherData' => $totalGatherData];
+    }
+
+    public function formatResult($result, $monthObj, $currentMonthObj, & $totalGatherData)
+    {
+        $elems = ['principal', 'interest', 'monthlyPayment'];
+        $eTypes = ['', 'Dealed', 'Total'];
+        $gatherData = [];
+        foreach ($elems as $elem) {
+            foreach ($eTypes as $type) {
+                $gatherData[$elem . $type] = 0;
+            }
+        }
+        $totalGatherData = empty($totalGatherData) ? $gatherData : $totalGatherData;
+
+        $nodealed = false;
+        foreach ($result as & $data) {
+            $monthObj = $monthObj->addMonth(1);
+            $monthValue = $monthObj->format('Y-m');
+            if ($monthObj->gt($currentMonthObj)) {
+                $nodealed = true;
+            }
+
+            $data['monthValue'] = $monthValue;
+            if ($monthValue == '2019-06') {
+                $data['interest'] = '281.55';
+            }
+            foreach ($elems as $elem) {
+                $gatherData[$elem . 'Total'] += $data[$elem];
+                $totalGatherData[$elem . 'Total'] += $data[$elem];
+                if ($nodealed) {
+                    $gatherData[$elem] += $data[$elem];
+                    $totalGatherData[$elem] += $data[$elem];
+                } else {
+                    $gatherData[$elem . 'Dealed'] += $data[$elem];
+                    $totalGatherData[$elem . 'Dealed'] += $data[$elem];
+                }
+            }
+        }
+        return ['infos' => $result, 'gatherData' => $gatherData];
     }
 
     function calculateEqualInstallmentPaymentSelf($loanAmount, $loanPeriod, $interestRate, $validPeriod)
     {
-        var_dump($loanAmount);
+        //var_dump($loanAmount);
         $monthlyInterestRate = $interestRate / 12 / 100;
         //$numOfMonthlyPayments = $loanPeriod * 12;
         $numOfMonthlyPayments = $loanPeriod;
