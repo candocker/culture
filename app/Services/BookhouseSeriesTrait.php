@@ -6,25 +6,31 @@ namespace ModuleCulture\Services;
 
 trait BookhouseSeriesTrait
 {
-    public function _getSeries($bigsort)
+    public function getBigSorts($bigsort)
     {
-        $bigsorts = [
-            'foreign' => ['scholarism' => '学术名著', 'luxun' => '鲁迅'],
-            //'chinese' => [],
+        $bigSorts = [
+            'foreign' => [
+                ['code' => 'scholarism', 'name' => '学术名著'],
+            ],
+            'chinese' => [
+                ['code' => 'luxun', 'name' => '鲁迅'],
+            ],
         ];
-        $sorts = $bigsorts[$bigsort];
-        $sortCodes = array_keys($sorts);
-        $infos = $this->getModelObj('culture-series')->whereIn('sort', $sortCodes)->orderBy('orderlist', 'desc')->get();
+        if (in_array($bigsort, array_keys($bigSorts))) {
+            return $bigSorts[$bigsort];
+        }
+        $datas = $this->_getSortBooks(false);
+        return $datas;
+    }
+
+    public function getSeries($sortCode)
+    {
+        $infos = $this->getModelObj('series')->where('sort', $sortCode)->orderBy('orderlist', 'desc')->get();
         $results = [];
         foreach ($infos as $info) {
-            $sort = $info['sort'];
-            if (isset($results[$sort])) {
-                $results[$sort]['subSorts'][] = ['code' => $info['code'], 'name' => $info['name']];
-            } else {
-                $results[$sort] = ['code' => $sort, 'name' => $sorts[$sort], 'subSorts' => []];
-            }
+            $results[] = $info->toArray();
         }
-        return array_values($results);
+        return $results;
     }
 
     public function getVolumeBooks($bigsort, $sort)

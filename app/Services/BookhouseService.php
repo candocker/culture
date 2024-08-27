@@ -11,40 +11,36 @@ class BookhouseService extends AbstractService
     use BookhouseSeriesTrait;
     use BookhouseLoanTrait;
 
-    public function _getSortBooks($force = false)
+    public function _getSortBooks($withBooks = true)
     {
-        $sortBookKey = 'culture-sort-books-cachekey';
-        if (false) {//Cache::has($sortBookKey) && empty($force)) {
-            $results = Cache::get($sortBookKey);
-            //var_dump($results);exit();
-        } else {
-
-            $bookSorts = $this->getModelObj('culture-bookSort')->orderBy('orderlist', 'desc')->get();
-            $results = [];
-            foreach ($bookSorts as $bookSort) {
-                $books = $this->getModelObj('culture-book')->where(['category' => $bookSort['code']])->orderBy('orderlist', 'desc')->get();
-                $sortData = $bookSort->toArray();
+        $bookSorts = $this->getModelObj('bookSort')->orderBy('orderlist', 'desc')->get();
+        $results = [];
+        foreach ($bookSorts as $bookSort) {
+            $sortData = $bookSort->toArray();
+            if ($withBooks) {
+                $books = $this->getModelObj('book')->where(['category' => $bookSort['code']])->orderBy('orderlist', 'desc')->get();
                 $sortData['books'] = $books->toArray();
-                $results[] = $sortData;
             }
-
-            Cache::forever($sortBookKey, $results);
+            $results[] = $sortData;
         }
 
-        $datas = [
-            'tdkData' => ['title' => 'title'],
-            'sortBooks' => $results,
-        ];
-        return $datas;
+        return $results;
+    }
+
+    public function getPointBooks($sortCode)
+    {
+        $books = $this->getModelObj('book')->where(['category' => $sortCode])->orderBy('orderlist', 'desc')->get();
+        $books = $books->toArray();
+        return $books;
     }
 
     public function _bookDetail($bookCode)
     {
-        $bookInfo = $this->getModelObj('culture-book')->where(['code' => $bookCode])->first();
+        $bookInfo = $this->getModelObj('book')->where(['code' => $bookCode])->first();
         if (empty($bookInfo)) {
             exit('no book');
         }
-        $chapterInfos = $this->getModelObj('culture-chapter')->where(['book_code' => $bookCode])->orderBy('serial', 'asc')->get();
+        $chapterInfos = $this->getModelObj('chapter')->where(['book_code' => $bookCode])->orderBy('serial', 'asc')->get();
         $chapterDatas = [];
         foreach ($chapterInfos as $cInfo) {
             $chapterDatas[] = [
@@ -58,7 +54,7 @@ class BookhouseService extends AbstractService
         }
         $bookData = $bookInfo->toArray();
         $figure = $bookInfo->formatAuthorData();
-        $categoryData = $this->getModelObj('culture-bookSort')->where(['code' => $bookInfo['category']])->first();
+        $categoryData = $this->getModelObj('bookSort')->where(['code' => $bookInfo['category']])->first();
         $bookData['coverUrl'] = $bookInfo->coverUrl;
         $bookData['figure']= $figure;
         $bookData['categoryName'] = $categoryData ? $categoryData['name'] : '其他分类';
@@ -73,7 +69,7 @@ class BookhouseService extends AbstractService
     public function getChapterDetail($bookCode, $chapterCode, $returnType = 'array')
     {
         $datas = $this->_bookDetail($bookCode);
-        $chapterInfo = $this->getModelObj('culture-chapter')->where(['book_code' => $bookCode, 'code' => $chapterCode])->first();
+        $chapterInfo = $this->getModelObj('chapter')->where(['book_code' => $bookCode, 'code' => $chapterCode])->first();
         $datas['currentChapterData'] = $chapterInfo->toArray();
 
         $contents = $this->getChapterContents($chapterInfo);
@@ -134,7 +130,7 @@ class BookhouseService extends AbstractService
         if ($elem == 'author') {
             return "<div style='color:red; text-align: right;'><b>{$values}</b></div>";
         }
-        if ($elem == 'description') {
+        if ($elem == 'description' || $elem == 'section') {
             return "<div style='color:green; text-align: center;'>{$values}</div>";
         }
         if ($elem == 'endphrase') {
