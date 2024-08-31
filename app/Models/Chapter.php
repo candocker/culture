@@ -2,8 +2,12 @@
 
 namespace ModuleCulture\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Chapter extends AbstractModel
 {
+    use SoftDeletes;
+
     protected $table = 'chapter';
     protected $guarded = ['id'];
 

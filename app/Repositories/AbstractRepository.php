@@ -127,6 +127,7 @@ class AbstractRepository extends AbstractRepositoryBase
             'englishname' => '英文名',
             'englishfull' => '英文全名',
             'usedbefore' => '曾用名',
+            'title' => '头衔',
         ];
     }
 }

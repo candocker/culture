@@ -86,22 +86,22 @@ class Figure extends AbstractModel
         $birth = $this->getDateinfo('birthday', 'full');
         $death = $this->getDateinfo('deathday', 'full');
         if (empty($birth) ||empty($death)) {
-            print_r($this->toArray());
-            return ['ageStr' => '', 'birthStr' => '', 'deathStr' => ''];
+            //print_r($this->toArray());
+            return ['age' => 0, 'ageStr' => '', 'birthStr' => '', 'deathStr' => ''];
         }
         $age = $death['accurate'] == 'running' ? '-' : '';
         $age = empty($age) ? $birth['accurate'] == 'unknown' || $death['accurate'] == 'unknown' ? '未知' : $death['year'] - $birth['year'] + 1 : $age;
-        $birthStr = empty($birth['year']) ? '-' : "{$birth['year']} / {$birth['month']} / {$birth['day']}";
+        $birthStr = empty($birth['year']) ? '-' : "{$birth['year']}/{$birth['month']}/{$birth['day']}";
         $birthStr = ($birth['accurate'] ? $typeDatas[$birth['accurate']] . ' ' : '') . $birthStr;
 
-        $deathStr = empty($death['year']) ? '-' : "{$death['year']} / {$death['month']} / {$death['day']}";
+        $deathStr = empty($death['year']) ? '-' : "{$death['year']}/{$death['month']}/{$death['day']}";
         $deathStr = ($death['accurate'] ? $typeDatas[$death['accurate']] . ' ' : '') . $deathStr;
 
         return [
             'age' => intval($age),
             'ageStr' => $age . ' 岁',
-            'birthStr' => '出生日期:' . $birthStr,
-            'deathStr' => '逝世日期:' . $deathStr,
+            'birthStr' => $birthStr,//'出生日期:' . 
+            'deathStr' => $deathStr,//'逝世日期:' . 
         ];
     }
 }

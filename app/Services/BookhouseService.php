@@ -144,6 +144,12 @@ class BookhouseService extends AbstractService
             }
             return $tmpResult;
         }
+        if ($elem == 'websource') {
+            foreach ($values as $showValue => $value) {
+                $tmpResult[] = '<a href="' . $value . '" target="blank">' . $showValue . '</a>';
+            }
+            return $tmpResult;
+        }
 
         return is_string($values) ? $values : implode('<br />', $values);
     }

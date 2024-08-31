@@ -11,9 +11,12 @@ trait BookhouseSeriesTrait
         $bigSorts = [
             'foreign' => [
                 ['code' => 'scholarism', 'name' => '学术名著'],
+                ['code' => 'foreignliterary', 'name' => '外国文学编年'],
             ],
             'chinese' => [
                 ['code' => 'luxun', 'name' => '鲁迅'],
+                ['code' => 'classical', 'name' => '经典古籍'],
+                ['code' => 'chineseliterary', 'name' => '中国文学编年'],
             ],
         ];
         if (in_array($bigsort, array_keys($bigSorts))) {
