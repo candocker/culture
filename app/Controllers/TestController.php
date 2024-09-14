@@ -9,8 +9,7 @@ use Carbon\Carbon;
 
 class TestController extends AbstractController
 {
-	use DealBookTrait;
-    use DealHouseLoanTrait;
+    use DealBookTrait;
 
     public function test()
     {

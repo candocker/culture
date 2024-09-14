@@ -62,6 +62,7 @@ trait BookhouseLoanTrait
             $data['monthValue'] = $monthValue;
             if ($monthValue == '2019-06') {
                 $data['interest'] = '281.55';
+                $data['monthlyPayment'] = '281.55' + $data['principal'];
             }
             foreach ($elems as $elem) {
                 $gatherData[$elem . 'Total'] += $data[$elem];

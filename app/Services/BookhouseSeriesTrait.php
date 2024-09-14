@@ -16,13 +16,14 @@ trait BookhouseSeriesTrait
             'chinese' => [
                 ['code' => 'luxun', 'name' => '鲁迅'],
                 ['code' => 'classical', 'name' => '经典古籍'],
+                ['code' => 'ruxue', 'name' => '儒家编年'],
                 ['code' => 'chineseliterary', 'name' => '中国文学编年'],
             ],
         ];
         if (in_array($bigsort, array_keys($bigSorts))) {
             return $bigSorts[$bigsort];
         }
-        $datas = $this->_getSortBooks(false);
+        $datas = $this->_getSortBooks($bigsort, false);
         return $datas;
     }
 

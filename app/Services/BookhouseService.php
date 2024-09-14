@@ -11,9 +11,13 @@ class BookhouseService extends AbstractService
     use BookhouseSeriesTrait;
     use BookhouseLoanTrait;
 
-    public function _getSortBooks($withBooks = true)
+    public function _getSortBooks($pointsort = '', $withBooks = true)
     {
-        $bookSorts = $this->getModelObj('bookSort')->orderBy('orderlist', 'desc')->get();
+        $where = [];
+        if ($pointsort != 'all') {
+            $where = ['type' => $pointsort == 'self' ? 'self' : 'common'];
+        }
+        $bookSorts = $this->getModelObj('bookSort')->where($where)->orderBy('orderlist', 'desc')->get();
         $results = [];
         foreach ($bookSorts as $bookSort) {
             $sortData = $bookSort->toArray();
@@ -76,7 +80,9 @@ class BookhouseService extends AbstractService
         //print_r($contents);exit();
         if ($returnType == 'string') {
             $contents = implode('<p style="line-height:10px"><br /></p>', $contents);
+            //$contents = implode('', $contents);
         }
+        //print_r($contents);exit();
         $datas['contents'] = $contents;
         $datas['relateChapters'] = $this->getRelateChapters($chapterInfo);
         //print_r($datas);exit();
@@ -133,8 +139,19 @@ class BookhouseService extends AbstractService
         if ($elem == 'description' || $elem == 'section') {
             return "<div style='color:green; text-align: center;'>{$values}</div>";
         }
-        if ($elem == 'endphrase') {
+        if ($elem == 'ask') {
             $tmpStr = implode('<br />', $values);
+            return "<div style='color:red; '>{$tmpStr}</div>";
+        }
+        if ($elem == 'img') {
+            $imgUrl = $values;
+            if (strpos($imgUrl, 'http') === false) {
+                $imgUrl = 'http://39.106.102.45/' . $values;
+            }
+            return "<div style='text-align: center'><img width='50%' height='50%' src='{$imgUrl}'/></div>";
+        }
+        if ($elem == 'endphrase') {
+            $tmpStr = implode('<br />', (array) $values);
             return "<div style='color:green; text-align: right;'>{$tmpStr}</div>";
         }
         if ($elem == 'notes') {

@@ -9,63 +9,20 @@ trait DealBookTrait
 {
     public function dealBookpass()
     {
-        $this->myLoan();
-        exit();
-        //$每月还款金额（简称每月本息）= 贷款本金 × 月利率 × [(1+月利率)^还款月数 ÷ [(1+月利率)^还款月数 - 1]。
-        $money = $principal * $monthRate * ((1 + $monthRate) ^ $allMonthes / (1 + $monthRate) ^ $allMonthes) - 1;
-        var_dump($money);exit();
-        $infos = \DB::SELECT('SELECT `id`, `name`, LEFT(`name`, 3) AS `key` FROM `data_culture`.`wp_book` WHERE 1 ');
-        $results = [];
-        foreach ($infos as $info) {
-            $results[$info->key][$info->id] = $info->name;
-        }
-        $tmps = [];
-        foreach ($results as $key => $kData) {
-            if (count($kData) > 1) {
-                var_dump($key);
-                foreach ($kData as $id => & $name) {
-                    $info = $this->getModelObj('book')->where(['id' => $id])->first();
-                    $author = $info->formatAuthorData();
-                    $tmps[$author][] = $name;
-                    $name .= '==' . $author;
-                }
-                print_r($kData);
+        $lines = file('/data/htmlwww/resource/books/鲁迅/鲁迅全集/鲁迅先生年谱/tupu.php');
+        $command = '';
+        foreach ($lines as $line) {
+            if (strpos($line, '<img') === false) {
+                continue;
             }
+            //var_dump(trim($line));
+            $str = substr($line, strpos($line, 'http'));
+            $str = substr($str, 0, strpos($str, '@'));
+            //var_dump($str);
+            $command .= "wget {$str};\n";
         }
-        foreach ($tmps as $author => $aTmp) {
-            if (count($aTmp) > 1) {
-                var_dump($author);
-                print_r($aTmp);
-            }
-        }
-        //print_r($tmps);
-        exit();
-        print_R($results);exit();
-
-        print_r($infos);
-        exit();
-        $book = $this->getModelObj('book')->where('code', 'guwenguanzhi')->first();
-        $chapters = $book->chapters;
-        $a = $b = [];
-        foreach ($chapters as $chapter) {
-            $n = $chapter['name'];
-            if (strpos($n, ' ')) {
-                $tmp = explode(' ', $n);
-                $n = array_pop($tmp);
-            }
-            $a[$n] = $chapter['name'];
-        }
-        $gwgz = require('/data/database/material/booklist/guwenguanzhi_catalogue.php');
-        foreach ($gwgz as $gw) {
-            $b[] = $gw['name'];
-        }
-        foreach ($a as $key => $suba) {
-            if (!in_array($key, $b)) {
-                var_dump($suba);
-            }
-        }
-        //print_r($a);
-        //print_r($b);
+        echo $command;
+        //print_r($lines);
         exit();
 
         /*$driver = \Storage::disk('local');
