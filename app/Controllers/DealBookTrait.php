@@ -9,21 +9,6 @@ trait DealBookTrait
 {
     public function dealBookpass()
     {
-        $lines = file('/data/htmlwww/resource/books/鲁迅/鲁迅全集/鲁迅先生年谱/tupu.php');
-        $command = '';
-        foreach ($lines as $line) {
-            if (strpos($line, '<img') === false) {
-                continue;
-            }
-            //var_dump(trim($line));
-            $str = substr($line, strpos($line, 'http'));
-            $str = substr($str, 0, strpos($str, '@'));
-            //var_dump($str);
-            $command .= "wget {$str};\n";
-        }
-        echo $command;
-        //print_r($lines);
-        exit();
 
         /*$driver = \Storage::disk('local');
         $datas = $driver->allFiles('bookold');
