@@ -28,15 +28,6 @@ class TestController extends AbstractController
 
     public function _testDealResource()
     {
-        $f1 = '/data/htmlwww/resource/test.jpg';
-        $f2 = '/data/htmlwww/resource/t.jpg';
-        $f3 = 'https://zsbt-1254153797.cos.ap-shanghai.myqcloud.com/data/upload/beitie/images/page/b4170a692040825baba55f881ebe2e49.jpg';
-        var_dump(hash_file('md5', $f1));
-        var_dump(hash_file('md5', $f2));
-        var_dump(hash_file('md5', $f3));
-        exit();
-
-
         $basePath = '/data/htmlwww/resource/';
         $infos = $this->getModelObj('infocms-resourceDetail')->where(['tag' => '书籍'])->orderBy('image_model', 'asc')->limit(1000)->get();
 $series = array(
